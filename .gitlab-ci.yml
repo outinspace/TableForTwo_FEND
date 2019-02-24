@@ -1,0 +1,4 @@
+push-to-ec2:
+    stage: deploy
+    script:     
+      - bash .gitlab-deploy.sh   
