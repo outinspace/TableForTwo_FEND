@@ -6,5 +6,6 @@ module.exports = {
           secure: true
         }
       }
-    }
+    },
+    baseUrl: '/reservations-application/'
   };
