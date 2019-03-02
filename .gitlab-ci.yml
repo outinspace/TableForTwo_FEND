@@ -21,4 +21,4 @@ push-to-ec2:
       - npm run build
       - ssh-add <(echo "$SSH_PRIVATE_KEY")
       - ssh ubuntu@$DEPLOY_SERVER "rm -rf /var/www/html/$APACHE_SUBDIR/*"
-      - scp -r dist/* ubuntu@$DEPLOY_SERVER:/var/www/html/$APACHE_SUBDIR"
+      - scp -r dist/* ubuntu@$DEPLOY_SERVER:/var/www/html/$APACHE_SUBDIR
