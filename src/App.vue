@@ -12,4 +12,10 @@ export default {
 </script>
 
 <style>
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
 </style>

@@ -6,8 +6,13 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 
 import router from './router'
+import axios from 'axios'
 
 Vue.config.productionTip = false
+
+Vue.prototype.$http = axios.create({
+  baseURL: '/api/reservations-application'
+})
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
