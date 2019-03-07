@@ -7,5 +7,5 @@ module.exports = {
         }
       }
     },
-    baseUrl: '/reservations-application/'
+    publicPath: '/reservations-application/'
   };

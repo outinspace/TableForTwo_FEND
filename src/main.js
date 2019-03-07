@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueMaterial from 'vue-material'
 import VueRouter from 'vue-router'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
+
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 
 import router from './router'
 import axios from 'axios'
@@ -14,7 +14,7 @@ Vue.prototype.$http = axios.create({
   baseURL: '/api/reservations-application'
 })
 
-Vue.use(VueMaterial)
+Vue.use(Vuetify)
 Vue.use(VueRouter)
 
 new Vue({
