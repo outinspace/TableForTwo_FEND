@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import LoginService from '../services/LoginService'
 
 export default {
   name: 'login-page',
@@ -39,8 +38,7 @@ export default {
           img: 'https://www.villageinn.com/wp-content/uploads/2018/09/Feature_Pumpkin-Supreme-Pancakes-750x400.jpg',
           title: 'Village Inn'
         }
-      ],
-      LoginService
+      ]
     }
   },
   async created() {

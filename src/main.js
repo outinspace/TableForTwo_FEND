@@ -6,13 +6,11 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
 import router from './router'
-import axios from 'axios'
+import $http from './$http'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$http = axios.create({
-  baseURL: '/api/reservations-application'
-})
+Vue.prototype.$http = $http
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
