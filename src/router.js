@@ -5,7 +5,7 @@ import BackendTesting from './components/BackendTesting'
 export default new VueRouter({
     routes: [
         {
-            path: '/', component: LandingPage
+            name: 'landing', path: '/', component: LandingPage
         },
         {
             path: '/backend-testing', component: BackendTesting

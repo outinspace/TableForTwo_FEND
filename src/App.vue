@@ -1,8 +1,10 @@
 <template>
   <v-app>
-    <v-toolbar app flat>
+    <v-toolbar app flat id="app-toolbar">
       <v-toolbar-side-icon @click="drawerState = !drawerState"></v-toolbar-side-icon>
-      <v-toolbar-title>Reservations Application</v-toolbar-title>
+      <v-toolbar-title id="app-toolbar-title" @click="$router.push({name: 'landing'})">
+        Reservations Application
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn v-if="AuthService.currentUser != null" round flat>
         <v-icon>person</v-icon>
@@ -28,7 +30,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-content class="grey lighten-4">
+    <v-content>
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -54,5 +56,14 @@ body {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  background-color: #fafafa;
+}
+
+#app-toolbar {
+  background-color: #fafafa;
+}
+
+#app-toolbar-title {
+  cursor: pointer;
 }
 </style>

@@ -6,7 +6,7 @@
       <v-card-text>
         <v-form>
           <h3>/auth/login</h3>
-          <v-text-field label="Username" v-model="loginForm.username"></v-text-field>
+          <v-text-field label="Email" v-model="loginForm.email"></v-text-field>
           <v-text-field label="Password" type="password" v-model="loginForm.password"></v-text-field>
           <v-btn @click="login()">Login</v-btn>
         </v-form>
@@ -31,7 +31,7 @@
       <v-card-text>
         <v-form>
           <h3>/users/create</h3>
-          <v-text-field label="Username" v-model="registrationForm.username"></v-text-field>
+          <v-text-field label="Email" v-model="registrationForm.email"></v-text-field>
           <v-text-field label="Password" type="password" v-model="registrationForm.password"></v-text-field>
           <v-text-field label="First Name" v-model="registrationForm.firstName"></v-text-field>
           <v-text-field label="Last Name" v-model="registrationForm.lastName"></v-text-field>
@@ -70,7 +70,7 @@ export default {
   methods: {
     async login() {
       this.loginFormResponse = await AuthService.login(
-        this.loginForm.username, 
+        this.loginForm.email, 
         this.loginForm.password
       )
     },

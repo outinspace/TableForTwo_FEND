@@ -11,9 +11,9 @@ class AuthService {
     this.$http = $http
   }
 
-  async login(username, password) {
+  async login(email, password) {
     let res = await this.$http.post('/auth/login', {
-      username,
+      email,
       password
     })
     this.currentUser = res.data
@@ -27,6 +27,15 @@ class AuthService {
       // todo
     }
     this.currentUser = null
+  }
+
+  async checkAndHydrateSession() {
+    try {
+      let res = await this.$http.get('/auth/hydrate')
+      this.currentUser = res.data
+    } catch (err) {
+      this.currentUser = null
+    }
   }
 }
 
