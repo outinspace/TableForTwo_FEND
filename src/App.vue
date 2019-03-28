@@ -6,13 +6,24 @@
         Reservations Application
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn v-if="AuthService.currentUser != null" round flat>
+
+      <template v-if="AuthService.currentUser != null">
+        <v-btn round flat>
+          <v-icon>person</v-icon>
+          {{ AuthService.currentUser.firstName }}
+        </v-btn>
+        <v-btn v-if="AuthService.currentUser.restaurant == null" round primary color="success">
+          <v-icon>access_time</v-icon>
+          My Reservations
+        </v-btn>
+        <v-btn v-else round primary color="success">
+          <v-icon>access_time</v-icon>
+          My Restaurant
+        </v-btn>
+      </template>
+      <v-btn v-else round flat>
         <v-icon>person</v-icon>
-        {{ AuthService.currentUser.firstName }}
-      </v-btn>
-      <v-btn round primary color="success">
-        <v-icon>access_time</v-icon>
-        My Reservations
+        Sign In
       </v-btn>
     </v-toolbar>
 

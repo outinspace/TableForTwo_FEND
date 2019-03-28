@@ -50,12 +50,26 @@
         </v-form>
       </v-card-text>
     </v-card>
+
+    <v-card class="mb-3">
+      <v-card-text>
+        <v-form>
+          <h3>/users/update</h3>
+          <v-text-field label="Email" v-model="userUpdateForm.email"></v-text-field>
+          <v-text-field label="Password" type="password" v-model="userUpdateForm.password"></v-text-field>
+          <v-text-field label="First Name" v-model="userUpdateForm.firstName"></v-text-field>
+          <v-text-field label="Last Name" v-model="userUpdateForm.lastName"></v-text-field>
+          <v-btn @click="updateUser()">Update Current User</v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
     <v-divider></v-divider>
   </v-container>
 </template>
 
 <script>
 import AuthService from '../services/AuthService'
+import UserService from '../services/UserService'
 
 export default {
   name: 'backend-testing',
@@ -64,7 +78,10 @@ export default {
       loginFormResponse: {},
       loginForm: {},
       registrationFormResponse: {},
-      registrationForm: {}
+      registrationForm: {},
+      userUpdateForm: {
+
+      }
     }
   },
   methods: {
@@ -76,12 +93,20 @@ export default {
     },
 
     async createUser() {
-      let res = await this.$http.post('/users/create', this.registrationForm)
-      this.registrationFormResponse = res.data
+      await UserService.createAndLogin(
+        this.registrationForm.email,
+        this.registrationForm.password,
+        this.registrationForm.firstName,
+        this.registrationForm.lastName
+        )
+    },
+
+    async updateUser() {
+      await UserService.update(this.userUpdateForm)
     },
 
     async deleteCurrentUser() {
-      await this.$http.post('/users/delete', {})
+      await UserService.delete()
     },
 
     async logout() {
