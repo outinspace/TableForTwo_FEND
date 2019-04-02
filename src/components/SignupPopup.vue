@@ -59,6 +59,7 @@ export default {
         this.formData.firstName,
         this.formData.lastName
         )
+      PopupService.closeSignup()
     }
   }
 }

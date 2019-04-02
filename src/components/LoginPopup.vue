@@ -50,6 +50,7 @@ export default {
         this.formData.email, 
         this.formData.password
       )
+      PopupService.closeLogin()
     },
 
     openCreatePopup() {
