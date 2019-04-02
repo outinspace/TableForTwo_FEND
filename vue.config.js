@@ -8,5 +8,5 @@ module.exports = {
         }
       }
     },
-    publicPath: '/reservations/'
+    publicPath: '/reservations-application/'
   };

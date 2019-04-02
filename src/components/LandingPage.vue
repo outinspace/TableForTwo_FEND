@@ -1,8 +1,8 @@
 <template>
-  <v-container fill-height>
+  <v-container fluid fill-height>
     <v-layout row wrap>
       <v-flex xs12 md6 lg4 v-for="(r, i) in restaurants" :key="i">
-        <v-card  hover class="v-card--round mb-3">
+        <v-card  hover class="v-card--round mb-3 mx-3">
           <v-img height="200px" :src="r.img"></v-img>
           <v-card-title>
               <h4 class="headline">{{r.title}}</h4>
@@ -35,8 +35,8 @@ export default {
           title: 'Brother Sebastians\''
         },
         {
-          img: 'https://www.villageinn.com/wp-content/uploads/2018/09/Feature_Pumpkin-Supreme-Pancakes-750x400.jpg',
-          title: 'Village Inn'
+          img: 'https://mtn-s3.imgix.net/wp-content/uploads/shutterstock_215326408.jpg?auto=format%2Ccompress%2Cenhance&ixlib=php-2.1.1&w=1024&s=396cc20e007b2fd2592f7b2bfc87c7cf',
+          title: 'Buffalo Wild Wings'
         }
       ]
     }
