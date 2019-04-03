@@ -1,20 +1,16 @@
 <template>
-  <v-dialog v-model="state.loginVisible" max-width="600px">
+  <v-dialog persistent v-model="state.loginVisible" max-width="500px">
     <v-card>
-      <v-card-title>
-        <span class="headline">Login</span>
-      </v-card-title>
       <v-card-text>
-        <v-container grid-list-md>
-          <v-layout wrap>
+        <div class="headline">Login</div>
+        <v-form>
             <v-flex sm12>
-              <v-text-field label="Email" required v-model="formData.email"></v-text-field>
+              <v-text-field label="Email" autofocus required v-model="formData.email"></v-text-field>
             </v-flex>
             <v-flex sm12>
               <v-text-field label="Password" type="password" required v-model="formData.password" @keypress.enter="login()"></v-text-field>
             </v-flex>
-          </v-layout>
-        </v-container>
+        </v-form>
       </v-card-text>
 
       <v-divider></v-divider>

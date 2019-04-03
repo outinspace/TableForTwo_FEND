@@ -3,16 +3,15 @@
     <v-layout row wrap>
       <v-flex>
         <div class="display-1 mb-5">My Account</div>
-
         <v-card flat>
-          <v-card-title primary-title>
+          <v-card-title>
             <div>
               <h3 class="headline">Profile</h3>
               <v-flex xs-12 sm-6>
               <p>Update your profile information that will appear in reservations.</p>
               </v-flex>
               <v-layout>
-                <user-form :formData="updateProfileData" :formValid="updateProfileValid"></user-form>
+                <user-form :formData="updateProfileData" v-model="updateProfileValid"></user-form>
               </v-layout>
             </div>
           </v-card-title>

@@ -1,26 +1,9 @@
 <template>
-  <v-dialog v-model="state.signupVisible" max-width="600px">
+  <v-dialog persistent v-model="state.signupVisible" max-width="600px">
     <v-card>
-      <v-card-title>
-        <span class="headline">Create New Account</span>
-      </v-card-title>
       <v-card-text>
-        <v-container grid-list-md>
-          <v-layout wrap>
-            <v-flex sm12>
-              <v-text-field label="Email" required v-model="formData.email"></v-text-field>
-            </v-flex>
-            <v-flex sm12>
-              <v-text-field label="Password" type="password" required v-model="formData.password"></v-text-field>
-            </v-flex>
-            <v-flex sm12>
-              <v-text-field label="First Name" required v-model="formData.firstName"></v-text-field>
-            </v-flex>
-            <v-flex sm12>
-              <v-text-field label="Last Name" required v-model="formData.lastName" @keypress.enter="createUser()"></v-text-field>
-            </v-flex>
-          </v-layout>
-        </v-container>
+        <div class="headline">Create New Account</div>
+        <user-form :formData="formData"></user-form>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -37,9 +20,11 @@
 <script>
 import UserService from '../services/UserService'
 import PopupService from '../services/PopupService'
+import UserForm from './UserForm'
 
 export default {
   name: 'signup-popup',
+  components: { UserForm },
   data() {
     return {
       formData: PopupService.formData,

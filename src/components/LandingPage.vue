@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid fill-height>
+  <v-container fluid>
     <v-layout row wrap>
-      <v-flex xs12 md6 lg4 v-for="(r, i) in restaurants" :key="i">
-        <v-card  hover class="v-card--round mb-3 mx-3">
+      <v-flex xs12 md6 lg4 class="pa-2" v-for="(r, i) in restaurants" :key="i">
+        <v-card  hover class="v-card--round">
           <v-img height="200px" :src="r.img"></v-img>
           <v-card-title>
               <h4 class="headline">{{r.title}}</h4>

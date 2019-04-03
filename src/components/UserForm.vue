@@ -1,7 +1,7 @@
 <template>
-  <v-form v-model="formValid">
+  <v-form :value="value" @input="$emit('input', value)">
     <v-flex xs12>
-      <v-text-field label="Email" required v-model="formData.email"></v-text-field>
+      <v-text-field label="Email" autofocus required v-model="formData.email"></v-text-field>
     </v-flex>
     <v-flex xs12>
       <v-text-field label="Password" type="password" required v-model="formData.password"></v-text-field>
@@ -18,7 +18,15 @@
 <script>
 export default {
   name: 'user-form',
-  props: ['formData', 'formValid']
+  props: ['formData', 'value'],
+  data() {
+    return {
+      formValid: false
+    }
+  },
+  updated() {
+
+  }
 }
 </script>
 

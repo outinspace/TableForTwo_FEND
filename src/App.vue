@@ -111,4 +111,5 @@ body {
 #app-toolbar-title {
   cursor: pointer;
 }
+
 </style>

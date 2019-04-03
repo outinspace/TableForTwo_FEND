@@ -1,19 +1,17 @@
 class PopupService {
   loginVisible = false
   signupVisible = false
-  formData
+  formData = {}
 
   constructor() {
     this.resetFormData()
   }
 
   resetFormData() {
-    this.formData = {
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: ''
-    }
+    this.formData.email = ''
+    this.formData.password = ''
+    this.formData.firstName = ''
+    this.formData.lastName = ''
   }
 
   openLogin() {
