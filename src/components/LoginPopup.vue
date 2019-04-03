@@ -11,7 +11,7 @@
               <v-text-field label="Email" required v-model="formData.email"></v-text-field>
             </v-flex>
             <v-flex sm12>
-              <v-text-field label="Password" type="password" required v-model="formData.password"></v-text-field>
+              <v-text-field label="Password" type="password" required v-model="formData.password" @keypress.enter="login()"></v-text-field>
             </v-flex>
           </v-layout>
         </v-container>
@@ -37,10 +37,7 @@ export default {
   name: 'login-popup',
   data() {
     return {
-      formData: {
-        email: '',
-        password: ''
-      },
+      formData: PopupService.formData,
       state: PopupService
     }
   },
@@ -51,6 +48,7 @@ export default {
         this.formData.password
       )
       PopupService.closeLogin()
+      PopupService.resetFormData()
     },
 
     openCreatePopup() {

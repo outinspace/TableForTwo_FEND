@@ -8,7 +8,7 @@
       <v-spacer></v-spacer>
 
       <template v-if="AuthService.currentUser != null">
-        <v-btn round flat>
+        <v-btn round flat @click="$router.push({name: 'my-account'})">
           <v-icon>person</v-icon>
           {{ AuthService.currentUser.firstName }}
         </v-btn>

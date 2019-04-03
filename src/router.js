@@ -3,6 +3,7 @@ import LandingPage from './components/LandingPage'
 import BackendTesting from './components/BackendTesting'
 import MyReservationsPage from './components/MyReservationsPage'
 import MyRestaurantPage from './components/MyRestaurantPage'
+import MyAccountPage from './components/MyAccountPage'
 
 export default new VueRouter({
   routes: [
@@ -17,6 +18,9 @@ export default new VueRouter({
     },
     {
       name: 'my-restaurant', path: '/restaurant', component: MyRestaurantPage
+    },
+    {
+      name: 'my-account', path: '/account', component: MyAccountPage
     }
     // TODO: UserDashboard, RestaurantDashboard, CreateReservation, ViewReservation, UserSignup, OwnerSignup
   ]

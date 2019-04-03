@@ -17,7 +17,7 @@
               <v-text-field label="First Name" required v-model="formData.firstName"></v-text-field>
             </v-flex>
             <v-flex sm12>
-              <v-text-field label="Last Name" required v-model="formData.lastName"></v-text-field>
+              <v-text-field label="Last Name" required v-model="formData.lastName" @keypress.enter="createUser()"></v-text-field>
             </v-flex>
           </v-layout>
         </v-container>
@@ -42,12 +42,7 @@ export default {
   name: 'signup-popup',
   data() {
     return {
-      formData: {
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: ''
-      },
+      formData: PopupService.formData,
       state: PopupService
     }
   },
@@ -60,6 +55,7 @@ export default {
         this.formData.lastName
         )
       PopupService.closeSignup()
+      PopupService.resetFormData()
     }
   }
 }
