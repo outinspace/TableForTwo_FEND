@@ -3,6 +3,7 @@
     <v-layout row wrap>
       <v-flex>
         This is where my reservations will be
+        hello
       </v-flex>
     </v-layout>
   </v-container>
