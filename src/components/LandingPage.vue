@@ -49,7 +49,5 @@ export default {
 </script>
 
 <style scoped>
-.v-card--round {
-  border-radius: 18px;
-}
+
 </style>

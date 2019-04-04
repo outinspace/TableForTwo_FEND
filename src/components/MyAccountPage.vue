@@ -3,22 +3,38 @@
     <v-layout row wrap>
       <v-flex>
         <div class="display-1 mb-5">My Account</div>
-        <v-card flat>
+
+        <v-card flat class="v-card--round my-3">
           <v-card-text>
             <div>
-              <h3 class="headline">Profile</h3>
-              <p>Update your profile information that will appear in reservations.</p>
+              <h3 class="headline">User Profile</h3>
+              <p>Update your user profile information</p>
               <v-layout>
                 <v-flex xs-12 sm-6>
-                  <user-form :formData="updateProfileData" v-model="updateProfileValid"></user-form>
+                  <user-form :formData="userProfileData"></user-form>
                 </v-flex>
                 <v-flex xs-12 sm-6></v-flex>
               </v-layout>
             </div>
           </v-card-text>
         </v-card>
-        <v-divider class="my-4"></v-divider>
-        <v-card flat>
+
+        <v-card flat class="v-card--round my-3">
+          <v-card-text>
+            <div>
+              <h3 class="headline">Restaurant Profile</h3>
+              <p>Update your restaurant profile information. Other users will see this information when they search for your restaurant.</p>
+              <v-layout>
+                <v-flex xs-12 sm-6>
+                  <restaurant-form :formData="restaurantProfileData"></restaurant-form>
+                </v-flex>
+                <v-flex xs-12 sm-6></v-flex>
+              </v-layout>
+            </div>
+          </v-card-text>
+        </v-card>
+
+        <v-card flat class="v-card--round my-3">
           <v-card-text>
               <h3 class="headline">Delete Account</h3>
               <div>
@@ -30,6 +46,7 @@
               </v-layout>
           </v-card-text>
         </v-card>
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -37,28 +54,26 @@
 
 <script>
 import UserForm from './UserForm'
+import RestaurantForm from './RestaurantForm'
 import AuthService from '../services/AuthService'
 import UserService from '../services/UserService'
 
 export default {
   name: 'my-account-page',
-  components: { UserForm },
+  components: { UserForm, RestaurantForm },
   data() {
     return {
-      updateProfileData: {},
-      updateProfileValid: false,
+      userProfileData: {},
+      restaurantProfileData: {},
       deleteCheckPassword: null
     }
   },
   async created() {
     await AuthService.hydratePromise
     if (AuthService.currentUser) {
-      this.updateProfileData = {
-        email: AuthService.currentUser.email,
-        firstName: AuthService.currentUser.firstName,
-        lastName: AuthService.currentUser.lastName,
-        password: '',
-        repassword: ''
+      this.userProfileData = {
+        ...AuthService.currentUser,
+        password: ''
       } 
     } else {
       this.$router.push({name: 'landing'})

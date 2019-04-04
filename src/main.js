@@ -5,8 +5,11 @@ import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
+import './globals.css'
+
 import router from './router'
 import $http from './$http'
+
 
 // Setup Vue
 Vue.config.productionTip = false

@@ -10,7 +10,11 @@
       <template v-if="AuthService.currentUser != null">
         <v-btn round flat @click="$router.push({name: 'my-account'})">
           <v-icon>person</v-icon>
-          {{ AuthService.currentUser.firstName }}
+          {{ 
+            AuthService.currentUser.restaurant && AuthService.currentUser.restaurant.name ? 
+              AuthService.currentUser.restaurant.name :
+              AuthService.currentUser.firstName 
+          }}
         </v-btn>
         <v-btn v-if="AuthService.currentUser.restaurant == null" round primary color="success" @click="$router.push({name: 'my-reservations'})">
           <v-icon>access_time</v-icon>
