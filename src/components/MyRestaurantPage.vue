@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height>
+  <v-container>
     <v-layout row wrap>
       <v-flex>
         This is where my restaurant will be

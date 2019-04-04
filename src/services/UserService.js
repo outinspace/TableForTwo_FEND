@@ -7,8 +7,8 @@ class UserService {
     this.$http = $http
   }
 
-  async createAndLogin(email, password, firstName, lastName) {
-    let res = await this.$http.post('/users/create', {
+  async createAndLogin(email, password, firstName, lastName, isOwner) {
+    let res = await this.$http.post(`/users/create?isOwner=${isOwner}`, {
       email,
       password,
       firstName,
@@ -24,8 +24,10 @@ class UserService {
     AuthService.currentUser = res.data
   }
 
-  async delete() {
-    await this.$http.post('/users/delete', {})
+  async delete(passwordCheck) {
+    await this.$http.post('/users/delete', {
+      password: passwordCheck
+    })
   }
 }
 

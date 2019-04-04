@@ -6,9 +6,11 @@ import client from '../$http'
  */
 class AuthService {
   currentUser = null
+  hydratePromise = null
 
   constructor($http) {
     this.$http = $http
+    this.hydratePromise = this.checkAndHydrateSession()
   }
 
   async login(email, password) {

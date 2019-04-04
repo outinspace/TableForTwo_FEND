@@ -3,7 +3,8 @@
     <v-card>
       <v-card-text>
         <div class="headline">Create New Account</div>
-        <user-form :formData="formData"></user-form>
+        <user-form :formData="userFormData"></user-form>
+        <v-checkbox v-model="isOwner" label="I am a restaurant owner"></v-checkbox>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -27,17 +28,20 @@ export default {
   components: { UserForm },
   data() {
     return {
-      formData: PopupService.formData,
-      state: PopupService
+      userFormData: PopupService.formData,
+      restaurantFormData: {},
+      state: PopupService,
+      isOwner: false
     }
   },
   methods: {
     async createUser() {
       await UserService.createAndLogin(
-        this.formData.email,
-        this.formData.password,
-        this.formData.firstName,
-        this.formData.lastName
+        this.userFormData.email,
+        this.userFormData.password,
+        this.userFormData.firstName,
+        this.userFormData.lastName,
+        this.isOwner
         )
       PopupService.closeSignup()
       PopupService.resetFormData()
