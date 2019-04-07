@@ -3,7 +3,7 @@
     <v-card>
       <v-card-text>
         <div class="headline">Create New Account</div>
-        <user-form :formData="userFormData"></user-form>
+        <user-form :formData="userFormData" autofocus></user-form>
         <v-checkbox v-model="isOwner" label="I am a restaurant owner"></v-checkbox>
       </v-card-text>
 

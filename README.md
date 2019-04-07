@@ -5,6 +5,10 @@ Before running this project, you must install NodeJS on your machine.
 - Install NodeJS: https://nodejs.org/en/download/current/
 - Install Visual Studio Code: https://code.visualstudio.com/download
 
+To get started, read through these documents:
+- https://vuejs.org/v2/guide/
+- https://vuetifyjs.com/en/getting-started/quick-start
+
 ## Setting up the project
 - This needs to be done if any new packages were added to the project by other members
 ```
