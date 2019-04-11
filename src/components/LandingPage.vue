@@ -24,7 +24,6 @@ export default {
   name: 'login-page',
   data() {
     return {
-      message: '',
       restaurants: [
         {
           img: 'https://www.villageinn.com/wp-content/uploads/2018/09/Feature_Pumpkin-Supreme-Pancakes-750x400.jpg',
@@ -40,10 +39,6 @@ export default {
         }
       ]
     }
-  },
-  async created() {
-    const res = await this.$http.get('/reservations/hello')
-    this.message = res.data
   }
 }
 </script>

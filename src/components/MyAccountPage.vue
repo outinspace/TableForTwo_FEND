@@ -10,10 +10,11 @@
               <h3 class="headline">User Profile</h3>
               <p>Update your user profile information</p>
               <v-layout>
-                <v-flex xs-12 sm-6>
+                <v-flex>
                   <user-form :formData="userProfileData"></user-form>
                 </v-flex>
               </v-layout>
+              <api-alerts v-if="userProfileError" :error="userProfileError"></api-alerts>
               <v-btn flat color="primary" @click="updateUser()" :loading="updateUserLoading">Save</v-btn>
             </div>
           </v-card-text>
@@ -29,8 +30,31 @@
                   <restaurant-form :formData="restaurantProfileData"></restaurant-form>
                 </v-flex>
               </v-layout>
+              <api-alerts v-if="restaurantProfileError" :error="restaurantProfileError"></api-alerts>
               <v-btn flat color="primary" @click="updateRestaurant()" :loading="updateRestaurantLoading">Save</v-btn>
             </div>
+          </v-card-text>
+        </v-card>
+
+        <v-card v-if="restaurantProfileData && !restaurantProfileData.published" flat class="v-card--round my-3">
+          <v-card-text>
+              <h3 class="headline">Publish Restaurant</h3>
+              <div>
+                <p>Publishing your restaurant will make it visible to customers in searches.</p>
+              </div>
+              <api-alerts v-if="publishRestaurantError" :error="publishRestaurantError"></api-alerts>
+              <v-btn color="success" flat @click="publishRestaurant()" :loading="publishRestaurantLoading">Publish</v-btn>
+          </v-card-text>
+        </v-card>
+
+        <v-card v-if="restaurantProfileData && restaurantProfileData.published" flat class="v-card--round my-3">
+          <v-card-text>
+              <h3 class="headline">Unpublish Restaurant</h3>
+              <div>
+                <p>Unpublishing your restaurant will hide it from appearing in searches, but it will not cancel existing reservations.</p>
+              </div>
+              <api-alerts v-if="unpublishRestaurantError" :error="unpublishRestaurantError"></api-alerts>
+              <v-btn color="warning" flat @click="unpublishRestaurant()" :loading="unpublishRestaurantLoading">Unpublish</v-btn>
           </v-card-text>
         </v-card>
 
@@ -40,6 +64,7 @@
               <div>
                 <p>Deleting your account will cancel your reservations and user data. Enter your password below to confirm this action.</p>
               </div>
+              <api-alerts v-if="deleteUserError" :error="deleteUserError"></api-alerts>
               <v-layout class="delete-layout">
                 <v-text-field class="mr-3" label="Password" type="password" required v-model="deleteCheckPassword"></v-text-field>
                 <v-btn color="error" flat @click="deleteAccount()" :loading="deleteUserLoading">Delete</v-btn>
@@ -58,18 +83,30 @@ import RestaurantForm from './RestaurantForm'
 import AuthService from '../services/AuthService'
 import UserService from '../services/UserService'
 import RestaurantService from '../services/RestaurantService'
+import ApiAlerts from './ApiAlerts'
 
 export default {
   name: 'my-account-page',
-  components: { UserForm, RestaurantForm },
+  components: { UserForm, RestaurantForm, ApiAlerts },
   data() {
     return {
       userProfileData: {},
-      restaurantProfileData: null,
-      deleteCheckPassword: null,
       updateUserLoading: false,
+      userProfileError: null,
+
+      restaurantProfileData: null,
+      restaurantProfileError: null,
       updateRestaurantLoading: false,
-      deleteUserLoading: false
+
+      deleteCheckPassword: null,
+      deleteUserError: null,
+      deleteUserLoading: false,
+
+      unpublishRestaurantLoading: false,
+      unpublishRestaurantError: null,
+
+      publishRestaurantLoading: false,
+      publishRestaurantError: null
     }
   },
   async created() {
@@ -87,32 +124,61 @@ export default {
   methods: {
     async updateUser() {
       this.updateUserLoading = true
+      this.userProfileError = null
       try {
         await UserService.update(this.userProfileData)
       } catch (err) {
-        // TODO:
+        this.userProfileError = err
       }
       this.updateUserLoading = false
     },
 
     async updateRestaurant() {
       this.updateRestaurantLoading = true
+      this.restaurantProfileError = null
       try {
         await RestaurantService.update(this.restaurantProfileData)
       } catch (err) {
-        // TODO:
+        this.restaurantProfileError = err
       }
       this.updateRestaurantLoading = false
     },
 
+    async publishRestaurant() {
+      this.publishRestaurantLoading = true
+      this.publishRestaurantError = null
+      try {
+        let changedRestaurant = await RestaurantService.publish()
+        AuthService.currentUser.restaurant = changedRestaurant
+        this.restaurantProfileData = AuthService.currentUser.restaurant
+      } catch (err) {
+        this.publishRestaurantError = err
+      }
+      this.publishRestaurantLoading = false
+    },
+
+    async unpublishRestaurant() {
+      this.unpublishRestaurantLoading = true
+      this.unpublishRestaurantError = null
+      try {
+        let changedRestaurant = await RestaurantService.unpublish()
+        AuthService.currentUser.restaurant = changedRestaurant
+        this.restaurantProfileData = AuthService.currentUser.restaurant
+      } catch (err) {
+        this.unpublishRestaurantError = err
+      }
+      this.unpublishRestaurantLoading = false
+    },
+
     async deleteAccount() {
       this.deleteUserLoading = true
+      this.deleteUserError = null
       try {
         await UserService.delete(this.deleteCheckPassword)
         AuthService.currentUser = null
         this.$router.push({name: 'landing'})
       } catch (err) {
-        // TODO:
+        this.deleteUserError = err
       }
       this.deleteUserLoading = false
     }
