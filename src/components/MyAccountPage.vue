@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row wrap>
       <v-flex>
-        <div class="display-1 mb-5">My Account</div>
+        <div class="display-1 mb-4">My Account</div>
 
         <v-card flat class="v-card--round my-3">
           <v-card-text>

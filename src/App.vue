@@ -7,15 +7,28 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
+      <v-menu v-if="AuthService.currentUser != null" offset-y class="v-menu--round">
+        <template v-slot:activator="{ on }">
+          <v-btn round flat v-on="on">
+            <v-icon>person</v-icon>
+            {{ 
+              AuthService.currentUser.restaurant && AuthService.currentUser.restaurant.name ? 
+                AuthService.currentUser.restaurant.name :
+                AuthService.currentUser.firstName 
+            }}
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-tile @click="$router.push({name: 'my-account'})">
+            <v-list-tile-title>Account</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="logout()">
+            <v-list-tile-title>Logout</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+
       <template v-if="AuthService.currentUser != null">
-        <v-btn round flat @click="$router.push({name: 'my-account'})">
-          <v-icon>person</v-icon>
-          {{ 
-            AuthService.currentUser.restaurant && AuthService.currentUser.restaurant.name ? 
-              AuthService.currentUser.restaurant.name :
-              AuthService.currentUser.firstName 
-          }}
-        </v-btn>
         <v-btn v-if="AuthService.currentUser.restaurant == null" round primary color="success" @click="$router.push({name: 'my-reservations'})">
           <v-icon>access_time</v-icon>
           My Reservations
@@ -44,7 +57,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile @click="AuthService.logout()">
+        <v-list-tile @click="logout()">
           <v-list-tile-action>
             <v-icon>child_care</v-icon>
           </v-list-tile-action>
@@ -94,6 +107,11 @@ export default {
 
     openLoginPopup() {
       PopupService.openLogin()
+    },
+
+    logout() {
+      AuthService.logout()
+      this.$router.push({name: 'landing'})
     }
   }
 }
@@ -116,4 +134,7 @@ body {
   cursor: pointer;
 }
 
+.v-menu__content {
+  border-radius: 18px !important;
+}
 </style>

@@ -12,6 +12,11 @@ class RestaurantService {
     AuthService.currentUser.restaurant = res.data
   }
 
+  async getAll() {
+    let res = await this.$http.get('/restaurants/all')
+    return res.data
+  }
+
   async unpublish() {
     let res = await this.$http.post('/restaurants/unpublish', {})
     return res.data
