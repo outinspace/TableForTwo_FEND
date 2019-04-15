@@ -1,50 +1,57 @@
 <template>
   <div>
-    <v-expansion-panel
-        v-model="panel"
-        expand
-      >
-        <v-expansion-panel-content
-          v-for="(item,i) in items"
-          :key="i"
-        >
-          <template v-slot:header>
-            <div>Restaurant of Reservation</div>
-            <div>Date of Reservation</div>
-          </template>
-          <v-card>
-            <v-card-text>Restaurant Name</v-card-text>
-            <v-card-text>Restaurant Address</v-card-text>
-            <v-card-text>Date and Time of Reservations</v-card-text>
-            <v-card-text>Restaurant Image</v-card-text>
-            <v-card-text><v-btn flat color="error">Delete Reservation</v-btn></v-card-text>
-          </v-card>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
+    <v-list>
+      <v-list-group v-for="res in reservations" :key = "res.restaurant" 
+      v-model="res.active" no-action>
+        <template v-slot:activator>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ res.restaurant }}</v-list-tile-title>
+            <v-list-tile-title>{{ res.date }}</v-list-tile-title>
+          </v-list-tile-content>
+        </template>
+
+        <v-list-tile>
+          <v-list-tile-content>
+            <v-list-tile-title>{{res.restaurant}}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile>
+          <v-list-tile-content>
+            <v-list-tile-title>{{res.address}}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile>
+          <v-list-tile-content>
+            <v-list-tile-title>{{res.date}}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile>
+          <v-list-tile-content>
+            <v-list-tile-title>{{res.imageUrl}}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile>
+          <v-list-tile-content>
+            <v-btn flat right color="error">Delete Reservation</v-btn>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list-group>
+    </v-list>
   </div>
 </template>
 
 <script>
 export default {
   name: "reservations-list",
+  props: ["reservations"],
   data() {
     return {
-        panel: [],
-        items: 5
+      
     }
   },
   updated() {
 
-  },
-    methods: {
-        all() {
-            //eslint-disable-next-line
-            this.panel = [...Array(this.items).keys()].map(_ => true)
-        },
-        none() {
-            this.panel = []
-        }
-    }
+  }
 } 
 </script>
 

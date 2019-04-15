@@ -63,13 +63,42 @@
         </v-form>
       </v-card-text>
     </v-card>
+
     <v-divider></v-divider>
+
+    <h2>ReservationsController</h2>
+    <v-card class="mb-3">
+      <v-card-text>
+        <v-form>
+          <h3>/reservations/save</h3>
+          <v-text-field label="Restaurant" v-model="reservationsCreateForm.restaurant"></v-text-field>
+          <v-menu ref="datePicker" v-model="datePicker" :close-on-content-click="false" 
+          :nudge-right="40" :return-value.sync="date" lazy transition="scale-transition" offset-y full-widith min-width="290px">
+            <template v-slot:activator="{on}">
+              <v-text-field v-model="date" label="Date of Reservation" prepend-icon="event" readonly v-on="on"></v-text-field>
+            </template>
+            <v-date-picker no-title scrollable v-model="date">
+              <v-spacer></v-spacer>
+              <v-btn flat color="primary" @click="datePicker = false">Cancel</v-btn>
+              <v-btn flat color="primary" @click="$refs.datePicker.save(date)">OK</v-btn>
+            </v-date-picker>
+          </v-menu>
+          <v-text-field label="People" v-model="reservationsCreateForm.people" suffix="People" mask="###"></v-text-field>
+          <v-text-field label="Notes" v-model="reservationsCreateForm.notes"></v-text-field>
+          <v-btn @click="createReservation()">Create New Reservation</v-btn>
+        </v-form>
+        <h3>Response</h3>
+        {{createReservationResponse}}
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
 <script>
 import AuthService from '../services/AuthService'
 import UserService from '../services/UserService'
+import ReservationService from '../services/ReservationService'
+import RestaurantService from '../services/RestaurantService'
 
 export default {
   name: 'backend-testing',
@@ -81,7 +110,11 @@ export default {
       registrationForm: {},
       userUpdateForm: {
 
-      }
+      },
+      createReservationResponse: {},
+      reservationsCreateForm: {},
+      datePicker: false,
+      date: new Date().toISOString().substr(0,10)
     }
   },
   methods: {
@@ -98,6 +131,17 @@ export default {
         this.registrationForm.password,
         this.registrationForm.firstName,
         this.registrationForm.lastName
+        )
+    },
+
+    async createReservation() {
+      this.createReservationResponse = RestaurantService.getOne(0)
+      await ReservationService.createReservation(
+        AuthService.currentUser,
+        RestaurantService.getOne(0),
+        this.reservationsCreateForm.people,
+        this.date,
+        this.reservationsCreateForm.notes
         )
     },
 
