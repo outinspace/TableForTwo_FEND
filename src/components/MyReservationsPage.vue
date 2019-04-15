@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import ReservationService from '../services/ReservationService'
 import ReservationsList from './ReservationsList'
 
 export default {
@@ -34,11 +35,11 @@ export default {
 
   data() {
     return {
-      
+      reservations: []
     }
   },
   async created() {
-    
+    this.reservations = await ReservationService.getMy()
   }
 }
 </script>
