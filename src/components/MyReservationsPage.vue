@@ -11,12 +11,9 @@
               <p>View or cancel existing reservations</p>
               <v-layout>
                 <v-flex xs-12 sm-6>
-                  <reservations-list></reservations-list>
+                  <reservations-list :reservations="this.reservations"></reservations-list>
                 </v-flex>
               </v-layout>
-            </div>
-            <div>
-              <v-btn top>Create new reservation</v-btn>
             </div>
           </v-card-text>
         </v-card>
