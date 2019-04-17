@@ -1,17 +1,20 @@
 <template>
   <v-container fluid>
-    <div class="display-1 mb-4">My Favorites</div>
+    <div class="display-1 mb-4 pa-2">My Favorites</div>
     <v-layout row class="v-layout--favorites">
       <v-flex class="pa-2 restaurant-card--size mb-3" v-for="(r, i) in restaurants" :key="i">
         <restaurant-card :restaurant="r"></restaurant-card>
       </v-flex>
     </v-layout>
-    <v-layout>
-      <v-flex xs12 sm12 class="display-1 mb-4">Trending Restaurants</v-flex>
-      <v-flex xs12 sm12>
+    <v-layout row wrap class="pa-2 flex--justify-between">
+      <v-flex  class="display-1 mb-4">Trending Restaurants</v-flex>
+      <v-spacer></v-spacer>
+      <v-flex class="flex--shrink">
         <v-layout>
-          <v-text-field label="Filter"></v-text-field>
-          <v-btn round flat>Filter</v-btn>
+          <v-text-field label="Filter" clearable @keypress.enter="filterRestaurants" v-model="filterValue" @click:clear="restaurants = allRestaurants"></v-text-field>
+          <v-btn fab flat @click="filterRestaurants">
+            <v-icon>search</v-icon>
+          </v-btn>
         </v-layout>
       </v-flex>
     </v-layout>
@@ -32,12 +35,19 @@ export default {
   components: { RestaurantCard },
   data() {
     return {
-      restaurants: []
+      allRestaurants: [],
+      restaurants: [],
+      filterValue: ''
     }
   },
-
   async created() {
-    this.restaurants = await RestaurantService.getAll()
+    this.allRestaurants = await RestaurantService.getAll()
+    this.restaurants = this.allRestaurants
+  },
+  methods: {
+    filterRestaurants() {
+      this.restaurants = this.allRestaurants.filter(r => r.name.toLowerCase().includes(this.filterValue.toLowerCase()))
+    }
   }
 }
 </script>
@@ -46,11 +56,17 @@ export default {
 .v-layout--favorites {
   overflow-x: scroll;
   scroll-behavior: smooth;
-
+  -webkit-overflow-scrolling: touch;
 }
 .restaurant-card--size {
   width: 400px;
   max-width: 400px;
   flex: 0 0 auto;
+}
+.flex--shrink {
+  flex: 1 1 auto;
+}
+.flex--justify-between {
+  justify-content: space-between;
 }
 </style>
