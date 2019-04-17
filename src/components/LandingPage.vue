@@ -6,7 +6,15 @@
         <restaurant-card :restaurant="r"></restaurant-card>
       </v-flex>
     </v-layout>
-    <div class="display-1 mb-4">Trending Restaurants</div>
+    <v-layout>
+      <v-flex xs12 sm12 class="display-1 mb-4">Trending Restaurants</v-flex>
+      <v-flex xs12 sm12>
+        <v-layout>
+          <v-text-field label="Filter"></v-text-field>
+          <v-btn round flat>Filter</v-btn>
+        </v-layout>
+      </v-flex>
+    </v-layout>
     <v-layout row wrap>
       <v-flex xs12 sm6 md6 lg4 class="pa-2" v-for="(r, i) in restaurants" :key="i">
         <restaurant-card :restaurant="r"></restaurant-card>
