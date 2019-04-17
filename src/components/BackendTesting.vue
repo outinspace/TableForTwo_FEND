@@ -71,7 +71,6 @@
       <v-card-text>
         <v-form>
           <h3>/reservations/save</h3>
-          <v-text-field label="Restaurant" v-model="reservationsCreateForm.restaurant"></v-text-field>
           <v-menu ref="datePicker" v-model="datePicker" :close-on-content-click="false" 
           :nudge-right="40" :return-value.sync="date" lazy transition="scale-transition" offset-y full-widith min-width="290px">
             <template v-slot:activator="{on}">
@@ -135,14 +134,13 @@ export default {
     },
 
     async createReservation() {
-      this.createReservationResponse = RestaurantService.getOne(0)
+      this.createReservationResponse = RestaurantService.getById(4)
       await ReservationService.createReservation(
-        AuthService.currentUser,
-        RestaurantService.getOne(0),
-        this.reservationsCreateForm.people,
-        this.date,
-        this.reservationsCreateForm.notes
-        )
+         4,
+         this.reservationsCreateForm.people,
+         this.date,
+         this.reservationsCreateForm.notes
+         )
     },
 
     async updateUser() {

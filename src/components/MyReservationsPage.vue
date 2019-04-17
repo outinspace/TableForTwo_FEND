@@ -11,7 +11,7 @@
               <p>View or cancel existing reservations</p>
               <v-layout>
                 <v-flex xs-12 sm-6>
-                  <reservations-list :reservations="reservationsData"></reservations-list>
+                  <reservations-list :reservations="this.reservations"></reservations-list>
                 </v-flex>
               </v-layout>
             </div>
@@ -23,9 +23,8 @@
 </template>
 
 <script>
-import ReservationsList from './ReservationsList'
-import AuthService from '../services/AuthService'
 import ReservationService from '../services/ReservationService'
+import ReservationsList from './ReservationsList'
 
 export default {
   name: 'my-reservations-page',
@@ -33,19 +32,11 @@ export default {
 
   data() {
     return {
-      reservationData: {}
-      
+      reservations: []
     }
   },
   async created() {
-    await AuthService.hydratePromise
-    if (AuthService.currentUser) {
-      this.reservationData = {
-        ...ReservationService.getReservations()
-      } 
-    } else {
-      this.$router.push({name: 'landing'})
-    }
+    this.reservations = await ReservationService.getMy()
   }
 }
 </script>

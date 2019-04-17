@@ -17,9 +17,9 @@ class RestaurantService {
     return res.data
   }
 
-  async getOne(id) {
-    let res = await this.$http.get('/restaurants/get/{id}', id)
-    return res
+  async getById(id) {
+    let res = await this.$http.get('/restaurants/get/' + id, id)
+    return res.data
   }
 
   async unpublish() {
