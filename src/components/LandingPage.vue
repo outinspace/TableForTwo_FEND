@@ -1,53 +1,106 @@
 <template>
-  <v-container fluid>
+  <v-container fluid ref="mainContainer">
+    <div v-if="favoriteRestaurants" class="display-1 mb-4 pa-2">My Favorites</div>
+    <v-layout v-if="favoriteRestaurants" row class="v-layout--favorites" 
+      :style="{
+        'marginRight': '-' + containerPadding, 
+        'marginLeft': '-' + containerPadding,
+        'paddingRight': containerPadding,
+        'paddingLeft': containerPadding
+      }" 
+      v-resize="updateFavoritesMargins"
+    >
+      <v-flex class="pa-2 restaurant-card--size mb-3" v-for="(r, i) in favoriteRestaurants" :key="i">
+        <restaurant-card :restaurant="r"></restaurant-card>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap class="pa-2 flex--justify-between">
+      <v-flex  class="display-1 mb-4">Trending Restaurants</v-flex>
+      <v-spacer></v-spacer>
+      <v-flex class="flex--shrink">
+        <v-layout>
+          <v-text-field label="Filter" clearable @keypress.enter="filterRestaurants" v-model="filterValue" @click:clear="restaurants = allRestaurants"></v-text-field>
+          <v-btn fab flat @click="filterRestaurants">
+            <v-icon>search</v-icon>
+          </v-btn>
+        </v-layout>
+      </v-flex>
+    </v-layout>
     <v-layout row wrap>
-      <v-flex xs12 md6 lg4 class="pa-2" v-for="(r, i) in restaurants" :key="i">
-        <v-card  hover class="v-card--round">
-          <v-img height="200px" :src="r.img"></v-img>
-          <v-card-title>
-              <h4 class="headline">{{r.title}}</h4>
-              <v-spacer></v-spacer>
-              <v-btn round flat>
-                <v-icon>date_range</v-icon>
-                Reserve
-              </v-btn>
-          </v-card-title>
-        </v-card>
+      <v-flex xs12 sm6 md6 lg4 class="pa-2" v-for="(r, i) in restaurants" :key="i">
+        <restaurant-card :restaurant="r"></restaurant-card>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import RestaurantService from '../services/RestaurantService'
+import RestaurantCard from './RestaurantCard'
+import AuthService from '../services/AuthService';
 
 export default {
-  name: 'login-page',
+  name: 'landing-page',
+  components: { RestaurantCard },
   data() {
     return {
-      message: '',
-      restaurants: [
-        {
-          img: 'https://www.villageinn.com/wp-content/uploads/2018/09/Feature_Pumpkin-Supreme-Pancakes-750x400.jpg',
-          title: 'Village Inn'
-        },
-        {
-          img: 'https://www.wholefoodsmarket.com/sites/default/files/styles/header_recipe/public/media/1138-1.jpg?itok=e5x91VQk',
-          title: 'Brother Sebastians\''
-        },
-        {
-          img: 'https://mtn-s3.imgix.net/wp-content/uploads/shutterstock_215326408.jpg?auto=format%2Ccompress%2Cenhance&ixlib=php-2.1.1&w=1024&s=396cc20e007b2fd2592f7b2bfc87c7cf',
-          title: 'Buffalo Wild Wings'
-        }
-      ]
+      allRestaurants: [],
+      favoriteRestaurants: null,
+      restaurants: [],
+      filterValue: '',
+      containerPadding: '0px'
     }
   },
-  async created() {
-    const res = await this.$http.get('/reservations/hello')
-    this.message = res.data
+  created() {
+    this.fetchAllRestaurants()
+    AuthService.subscribe(() => {
+      if (AuthService.currentUser != null && AuthService.currentUser.restaurant == null) {
+        this.fetchFavoriteRestaurants()
+      } else {
+        this.favoriteRestaurants = null
+      }
+    })
+  },
+  mounted() {
+    this.updateFavoritesMargins()
+  },
+  methods: {
+    async fetchAllRestaurants() {
+      this.allRestaurants = await RestaurantService.getAll()
+      this.restaurants = this.allRestaurants
+    },
+
+    async fetchFavoriteRestaurants() {
+      this.favoriteRestaurants = await RestaurantService.getFavorites()
+    },
+
+    filterRestaurants() {
+      this.restaurants = this.allRestaurants.filter(r => r.name.toLowerCase().includes(this.filterValue.toLowerCase()))
+    },
+
+    updateFavoritesMargins() {
+      const style = window.getComputedStyle(this.$refs.mainContainer)
+      this.containerPadding = style.paddingRight
+    }
   }
 }
 </script>
 
 <style scoped>
-
+.v-layout--favorites {
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.restaurant-card--size {
+  width: 400px;
+  max-width: 400px;
+  flex: 0 0 auto;
+}
+.flex--shrink {
+  flex: 1 1 auto;
+}
+.flex--justify-between {
+  justify-content: space-between;
+}
 </style>

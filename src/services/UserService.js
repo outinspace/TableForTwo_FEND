@@ -18,9 +18,7 @@ class UserService {
   }
 
   async update(changes) {
-    let userId = AuthService.currentUser.id
-    let mergedUser = {...AuthService.currentUser, ...changes}
-    let res = await this.$http.post(`/users/update/${userId}`, mergedUser)
+    let res = await this.$http.post(`/users/update`, changes)
     AuthService.currentUser = res.data
   }
 
