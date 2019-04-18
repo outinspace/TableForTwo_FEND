@@ -75,6 +75,7 @@
 
     <login-popup></login-popup>
     <signup-popup></signup-popup>
+    <restaurant-popup></restaurant-popup>
   </v-app>
 </template>
 
@@ -83,11 +84,12 @@ import AuthService from './services/AuthService'
 import UserService from './services/UserService'
 import LoginPopup from './components/LoginPopup'
 import SignupPopup from './components/SignupPopup'
-import PopupService from './services/PopupService'
+import RestaurantPopup from './components/RestaurantPopup'
+import AuthPopupService from './services/AuthPopupService'
 
 export default {
   name: 'app',
-  components: { LoginPopup, SignupPopup },
+  components: { LoginPopup, SignupPopup, RestaurantPopup },
   data() {
     return {
       drawerState: false,
@@ -106,7 +108,7 @@ export default {
     },
 
     openLoginPopup() {
-      PopupService.openLogin()
+      AuthPopupService.openLogin()
     },
 
     logout() {
