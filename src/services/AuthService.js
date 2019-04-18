@@ -7,6 +7,7 @@ import client from '../$http'
 class AuthService {
   currentUser = null
   hydratePromise = null
+  callbacks = []
 
   constructor($http) {
     this.$http = $http
@@ -19,6 +20,7 @@ class AuthService {
       password
     })
     this.currentUser = res.data
+    this.executeCallbacks()
     return this.currentUser
   }
 
@@ -29,6 +31,7 @@ class AuthService {
       // todo
     }
     this.currentUser = null
+    this.executeCallbacks()
   }
 
   async checkAndHydrateSession() {
@@ -37,6 +40,17 @@ class AuthService {
       this.currentUser = res.data
     } catch (err) {
       this.currentUser = null
+    }
+    this.executeCallbacks()
+  }
+
+  subscribe(callback) {
+    this.callbacks.push(callback)
+  }
+
+  executeCallbacks() {
+    for (let callback of this.callbacks) {
+      callback()
     }
   }
 }

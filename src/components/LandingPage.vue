@@ -1,8 +1,16 @@
 <template>
-  <v-container fluid>
-    <div class="display-1 mb-4 pa-2">My Favorites</div>
-    <v-layout row class="v-layout--favorites">
-      <v-flex class="pa-2 restaurant-card--size mb-3" v-for="(r, i) in restaurants" :key="i">
+  <v-container fluid ref="mainContainer">
+    <div v-if="favoriteRestaurants" class="display-1 mb-4 pa-2">My Favorites</div>
+    <v-layout v-if="favoriteRestaurants" row class="v-layout--favorites" 
+      :style="{
+        'marginRight': '-' + containerPadding, 
+        'marginLeft': '-' + containerPadding,
+        'paddingRight': containerPadding,
+        'paddingLeft': containerPadding
+      }" 
+      v-resize="updateFavoritesMargins"
+    >
+      <v-flex class="pa-2 restaurant-card--size mb-3" v-for="(r, i) in favoriteRestaurants" :key="i">
         <restaurant-card :restaurant="r"></restaurant-card>
       </v-flex>
     </v-layout>
@@ -29,6 +37,7 @@
 <script>
 import RestaurantService from '../services/RestaurantService'
 import RestaurantCard from './RestaurantCard'
+import AuthService from '../services/AuthService';
 
 export default {
   name: 'landing-page',
@@ -36,17 +45,42 @@ export default {
   data() {
     return {
       allRestaurants: [],
+      favoriteRestaurants: null,
       restaurants: [],
-      filterValue: ''
+      filterValue: '',
+      containerPadding: '0px'
     }
   },
-  async created() {
-    this.allRestaurants = await RestaurantService.getAll()
-    this.restaurants = this.allRestaurants
+  created() {
+    this.fetchAllRestaurants()
+    AuthService.subscribe(() => {
+      if (AuthService.currentUser != null && AuthService.currentUser.restaurant == null) {
+        this.fetchFavoriteRestaurants()
+      } else {
+        this.favoriteRestaurants = null
+      }
+    })
+  },
+  mounted() {
+    this.updateFavoritesMargins()
   },
   methods: {
+    async fetchAllRestaurants() {
+      this.allRestaurants = await RestaurantService.getAll()
+      this.restaurants = this.allRestaurants
+    },
+
+    async fetchFavoriteRestaurants() {
+      this.favoriteRestaurants = await RestaurantService.getFavorites()
+    },
+
     filterRestaurants() {
       this.restaurants = this.allRestaurants.filter(r => r.name.toLowerCase().includes(this.filterValue.toLowerCase()))
+    },
+
+    updateFavoritesMargins() {
+      const style = window.getComputedStyle(this.$refs.mainContainer)
+      this.containerPadding = style.paddingRight
     }
   }
 }

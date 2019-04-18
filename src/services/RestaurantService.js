@@ -17,6 +17,11 @@ class RestaurantService {
     return res.data
   }
 
+  async getFavorites() {
+    let res = await this.$http.get('/restaurants/favorites')
+    return res.data
+  }
+
   async getById(id) {
     let res = await this.$http.get(`/restaurants/get/${id}`, id)
     return res.data
