@@ -1,6 +1,8 @@
 class PopupService {
   loginVisible = false
   signupVisible = false
+  deleteReservationVisible = false
+  editReservationVisible = false
   formData = {}
 
   constructor() {
@@ -28,6 +30,22 @@ class PopupService {
 
   closeSignup() {
     this.signupVisible = false
+  }
+
+  openDeleteReservation() {
+    this.deleteReservationVisible = true
+  }
+
+  closeDeleteReservation() {
+    this.deleteReservationVisible = false
+  }
+
+  openEditReservation() {
+    this.editReservationVisible = true
+  }
+
+  closeEditReservation() {
+    this.editReservationVisible = false
   }
 }
 
