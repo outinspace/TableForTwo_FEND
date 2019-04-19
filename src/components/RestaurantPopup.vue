@@ -8,24 +8,17 @@
       </v-card-title>
 
       <v-card-text v-if="modeIsViewing">
-        <div>{{state.restaurant.description}}</div>
+        <div :class="{'paragraph--truncated': !descriptionExpanded}">
+          {{state.restaurant.description}}
+          <div v-if="!descriptionExpanded" class="truncate-paragraph">
+            <div class="truncate-paragraph-cover"></div>
+            <div class="truncate-paragraph-button subheading" @click="descriptionExpanded = true">Read More</div>
+          </div>
+        </div>
+
         <v-divider class="my-3"></v-divider>
 
-        <gmap-autocomplete
-          @place_changed="setPlace">
-        </gmap-autocomplete>
-        <gmap-map
-          :center="center"
-          :zoom="12"
-          style="width:100%;  height: 400px;"
-        >
-          <gmap-marker
-            :key="index"
-            v-for="(m, index) in markers"
-            :position="m.position"
-            @click="center=m.position"
-          ></gmap-marker>
-        </gmap-map>
+        <restaurant-map :address="state.restaurant.address"></restaurant-map>
       </v-card-text>
 
       <v-card-text v-else>
@@ -52,22 +45,18 @@
 <script>
 import RestaurantPopupService from '../services/RestaurantPopupService'
 import ReservationForm from './ReservationForm'
-import { gmapApi } from 'vue2-google-maps'
 import ReservationService from '../services/ReservationService'
 import ApiAlerts from './ApiAlerts'
+import RestaurantMap from './RestaurantMap'
 
 export default {
   name: 'restaurant-popup',
-  components: { ReservationForm, ApiAlerts },
+  components: { ReservationForm, ApiAlerts, RestaurantMap },
   data() {
     return {
       state: RestaurantPopupService,
       modeIsViewing: true,
-      center: { lat: 45.508, lng: -73.587 },
-      markers: [],
-      places: [],
-      currentPlace: null,
-      gmapApi: null,
+      descriptionExpanded: false,
       reservationForm: {
         people: 2,
         date: new Date().toISOString().substr(0,10),
@@ -76,10 +65,6 @@ export default {
       },
       apiError: null
     }
-  },
-  mounted() {
-    this.geolocate();
-    this.gmapApi = gmapApi()
   },
   methods: {
     async submitReservation() {
@@ -94,35 +79,43 @@ export default {
       } catch (err) {
         this.apiError = err
       }
-    },
-    // receives a place object via the autocomplete component
-    setPlace(place) {
-      this.currentPlace = place;
-    },
-    addMarker() {
-      if (this.currentPlace) {
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
-        };
-        this.markers.push({ position: marker });
-        this.places.push(this.currentPlace);
-        this.center = marker;
-        this.currentPlace = null;
-      }
-    },
-    geolocate: function() {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
     }
   }
 }
 </script>
 
 <style>
+.paragraph--truncated {
+  overflow: hidden;
+  max-height: 200px;
+  position: relative;
+}
 
+.truncate-paragraph {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.truncate-paragraph-cover {
+  max-height: 50px;
+  height: 50px;
+  background-image: linear-gradient(transparent, white);
+}
+
+.truncate-paragraph-button {
+  text-align: center;
+  background-color: white;
+  cursor: pointer;
+  text-decoration-line: underline;
+}
+
+.expand-paragraph-button {
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 50px;
+  background-image: linear-gradient(transparent, white);
+}
 </style>
