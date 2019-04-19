@@ -1,4 +1,4 @@
-class PopupService {
+class AuthPopupService {
   loginVisible = false
   signupVisible = false
   formData = {}
@@ -29,6 +29,8 @@ class PopupService {
   closeSignup() {
     this.signupVisible = false
   }
+
+
 }
 
-export default new PopupService()
+export default new AuthPopupService()

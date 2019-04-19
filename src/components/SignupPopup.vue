@@ -21,7 +21,7 @@
 
 <script>
 import UserService from '../services/UserService'
-import PopupService from '../services/PopupService'
+import AuthPopupService from '../services/AuthPopupService'
 import UserForm from './UserForm'
 import ApiAlerts from './ApiAlerts'
 
@@ -30,9 +30,9 @@ export default {
   components: { UserForm, ApiAlerts },
   data() {
     return {
-      userFormData: PopupService.formData,
+      userFormData: AuthPopupService.formData,
       restaurantFormData: {},
-      state: PopupService,
+      state: AuthPopupService,
       isOwner: false,
       apiError: null,
       loading: false
@@ -50,8 +50,8 @@ export default {
           this.userFormData.lastName,
           this.isOwner
         )
-        PopupService.closeSignup()
-        PopupService.resetFormData()
+        AuthPopupService.closeSignup()
+        AuthPopupService.resetFormData()
       } catch (err) {
         this.apiError = err
       }
