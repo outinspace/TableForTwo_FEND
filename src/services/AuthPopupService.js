@@ -1,4 +1,4 @@
-class PopupService {
+class AuthPopupService {
   loginVisible = false
   signupVisible = false
   deleteReservationVisible = false
@@ -47,6 +47,7 @@ class PopupService {
   closeEditReservation() {
     this.editReservationVisible = false
   }
+
 }
 
-export default new PopupService()
+export default new AuthPopupService()

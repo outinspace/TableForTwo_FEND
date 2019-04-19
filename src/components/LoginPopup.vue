@@ -28,7 +28,7 @@
 
 <script>
 import AuthService from '../services/AuthService'
-import PopupService from '../services/PopupService'
+import AuthPopupService from '../services/AuthPopupService'
 import ApiAlerts from './ApiAlerts'
 
 export default {
@@ -36,8 +36,8 @@ export default {
   components: { ApiAlerts },
   data() {
     return {
-      formData: PopupService.formData,
-      state: PopupService,
+      formData: AuthPopupService.formData,
+      state: AuthPopupService,
       apiError: null,
       loading: false
     }
@@ -51,8 +51,8 @@ export default {
           this.formData.email, 
           this.formData.password
         )
-        PopupService.closeLogin()
-        PopupService.resetFormData()
+        AuthPopupService.closeLogin()
+        AuthPopupService.resetFormData()
       } catch (err) {
         this.apiError = err
       }
@@ -60,8 +60,8 @@ export default {
     },
 
     openCreatePopup() {
-      PopupService.closeLogin()
-      PopupService.openSignup()
+      AuthPopupService.closeLogin()
+      AuthPopupService.openSignup()
     }
   }
 }

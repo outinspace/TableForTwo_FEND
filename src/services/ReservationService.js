@@ -19,8 +19,11 @@ class ReservationService {
       notes
     })
     return res.data
-}
+  }
   
+  async deleteReservation(reservationId) {
+    await this.$http.post(`/reservations/delete/${reservationId}`)
+  }
 }
 
 export default new ReservationService(client)
