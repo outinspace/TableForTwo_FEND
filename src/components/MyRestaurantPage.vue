@@ -8,12 +8,11 @@
           <v-card-text>
             <div>
               <h3 class="headline">Restaurant Information</h3>
-              
+              <p>View Reservations</p>
               <v-layout>
                 <v-flex xs-12 sm-6>
-                  
+                <reservations-list :reservations="this.reservations"></reservations-list>  
                 </v-flex>
-                <v-flex xs-12 sm-6></v-flex>
               </v-layout>
             </div>
             </v-card-text>
@@ -24,17 +23,19 @@
 </template>
 
 <script>
+import ReservationService from '../services/ReservationService'
+import ReservationsList from './ReservationsList'
 
 export default {
   name: 'my-restaurant-page',
-  //components: { ViewReservation },
+  components: { ReservationsList },
   data() {
     return {
-      
+      reservations: []
     }
   },
   async created() {
-    
+    this.reservations = await ReservationService.getMy()
   }
 }
 </script>
