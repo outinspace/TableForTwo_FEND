@@ -2,10 +2,12 @@
   <v-dialog v-model="state.visible" max-width="500px">
     <v-card v-if="state.restaurant">
       <v-img height="200px" :src="state.restaurant.imageUrl"></v-img>
+      
       <v-card-title primary-title>
         <div class="headline">{{state.restaurant.name}}</div>
       </v-card-title>
-      <v-card-text>
+
+      <v-card-text v-if="modeIsViewing">
         <div>{{state.restaurant.description}}</div>
         <v-divider class="my-3"></v-divider>
 
@@ -24,15 +26,24 @@
             @click="center=m.position"
           ></gmap-marker>
         </gmap-map>
+      </v-card-text>
 
+      <v-card-text v-else>
+        <reservation-form :formData="reservationForm"></reservation-form>
+        <api-alerts v-if="apiError" :error="apiError"></api-alerts>
       </v-card-text>
 
       <v-divider></v-divider>
       
-      <v-card-actions>
+      <v-card-actions v-if="modeIsViewing">
         <v-spacer></v-spacer>
         <v-btn flat @click="state.close()">Close</v-btn>
-        <v-btn flat color="primary" @click="login()">Reserve</v-btn>
+        <v-btn flat color="primary" @click="modeIsViewing = false">Reserve</v-btn>
+      </v-card-actions>
+      <v-card-actions v-else>
+        <v-spacer></v-spacer>
+        <v-btn flat @click="modeIsViewing = true">Cancel</v-btn>
+        <v-btn flat color="primary" @click="submitReservation">Submit</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -40,27 +51,50 @@
 
 <script>
 import RestaurantPopupService from '../services/RestaurantPopupService'
+import ReservationForm from './ReservationForm'
 import { gmapApi } from 'vue2-google-maps'
-// import ApiAlerts from './ApiAlerts'
+import ReservationService from '../services/ReservationService'
+import ApiAlerts from './ApiAlerts'
 
 export default {
   name: 'restaurant-popup',
-  // components: { ApiAlerts },
+  components: { ReservationForm, ApiAlerts },
   data() {
     return {
       state: RestaurantPopupService,
+      modeIsViewing: true,
       center: { lat: 45.508, lng: -73.587 },
       markers: [],
       places: [],
       currentPlace: null,
-      gmapApi: null
+      gmapApi: null,
+      reservationForm: {
+        people: 2,
+        date: new Date().toISOString().substr(0,10),
+        time: '',
+        notes: ''
+      },
+      apiError: null
     }
   },
   mounted() {
     this.geolocate();
-    this.gmapApi = gmapApi().maps.places
+    this.gmapApi = gmapApi()
   },
   methods: {
+    async submitReservation() {
+      try {
+        await ReservationService.createReservation(
+          this.state.restaurant.id,
+          this.reservationForm.people,
+          this.reservationForm.date,
+          this.reservationForm.time,
+          this.reservationForm.notes
+        )
+      } catch (err) {
+        this.apiError = err
+      }
+    },
     // receives a place object via the autocomplete component
     setPlace(place) {
       this.currentPlace = place;
