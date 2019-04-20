@@ -2,10 +2,9 @@
   <v-data-table
     :headers="headers"
     :items="reservations"
-    class="elevation-1"
   >
     <template v-slot:items="props">
-      <td>{{ props.item.date }}</td>
+      <td>{{ moment(props.item.date).format('LT') }} ({{ moment(props.item.date).fromNow() }})</td>
       <td class="text-xs-middle">{{ props.item.people }}</td>
       <td class="text-xs-middle">{{ props.item.notes }}</td>
     </template>
@@ -14,23 +13,27 @@
 
 
 <script>
+import moment from 'moment'
+
 export default {
   name: "reservations-list-for-restaurant",
   props: ["reservations"],
-      data () {
-      return {
-        headers: [
-          {
-            text: 'Time',
-            align: 'left',
-            value: 'time'
-          },
-          { text: 'People', sortable: false, value: 'people' },
-          { text: 'Notes', sortable: false, value: 'notes' },
-        ]
-      }
+  data () {
+    return {
+      moment,
+      headers: [
+        {
+          text: 'Time',
+          align: 'left',
+          value: 'time',
+          sortable: false
+        },
+        { text: 'People', sortable: false, value: 'people' },
+        { text: 'Notes', sortable: false, value: 'notes' },
+      ]
     }
   }
+}
 </script>
 
 <style>

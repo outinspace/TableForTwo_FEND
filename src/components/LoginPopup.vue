@@ -24,15 +24,15 @@
       <v-divider></v-divider>
       
       <v-card-actions v-if="isLoginMode">
-        <v-btn flat color="primary" @click="switchMode()">Create New Account</v-btn>
+        <v-btn flat color="primary" @click="switchMode()">Sign Up</v-btn>
         <v-spacer></v-spacer>
-        <v-btn flat @click="closePopup()">Cancel</v-btn>
+        <v-btn flat @click="closePopup()">Close</v-btn>
         <v-btn flat color="primary" @click="login()" :loading="loading">Login</v-btn>
       </v-card-actions>
 
       <v-card-actions v-else>
         <v-spacer></v-spacer>
-        <v-btn flat @click="switchMode()">Cancel</v-btn>
+        <v-btn flat @click="switchMode()">Back</v-btn>
         <v-btn flat color="primary" @click="createUser()" :loading="loading">Create</v-btn>
       </v-card-actions>
     </v-card>

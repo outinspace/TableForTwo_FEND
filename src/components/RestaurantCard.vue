@@ -29,10 +29,6 @@ export default {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.container--dim:hover {
-  opacity: 0;
-}
-
 .title--center {
   text-align: center;
 }
