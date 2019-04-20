@@ -1,7 +1,8 @@
 class AuthPopupService {
-  loginVisible = false
-  signupVisible = false
+  visible = false
   formData = {}
+
+  closeCallback = null
 
   constructor() {
     this.resetFormData()
@@ -14,22 +15,22 @@ class AuthPopupService {
     this.formData.lastName = ''
   }
 
-  openLogin() {
-    this.loginVisible = true
+  open() {
+    this.visible = true
   }
 
-  closeLogin() {
-    this.loginVisible = false
+  openWithCloseCallback(callback) {
+    this.open()
+    this.closeCallback = callback
   }
 
-  openSignup() {
-    this.signupVisible = true
+  close() {
+    this.visible = false
+    this.resetFormData()
+    if (this.closeCallback) {
+      this.closeCallback()
+    }
   }
-
-  closeSignup() {
-    this.signupVisible = false
-  }
-
 
 }
 
