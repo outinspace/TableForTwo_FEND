@@ -1,27 +1,15 @@
 <template>
-  <div>
-    <v-list>
-      <v-list-group v-for="res in reservations" :key="res.date" v-model="res.active" no-action>
-        <template v-slot:activator>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ res.date }}</v-list-tile-title>
-          </v-list-tile-content>
-        </template>
-
-        <v-list-tile>
-          <v-list-tile-content>
-            <v-list-tile-title>{{res.people}}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-content>
-            <v-list-tile-title>{{res.notes}}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list-group>
-    </v-list>
-  </div>
+  <v-data-table
+    :headers="headers"
+    :items="reservations"
+    class="elevation-1"
+  >
+    <template v-slot:items="props">
+      <td>{{ props.item.date }}</td>
+      <td class="text-xs-right">{{ props.item.people }}</td>
+      <td class="text-xs-right">{{ props.item.notes }}</td>
+    </template>
+  </v-data-table>
 </template>
 
 
@@ -29,11 +17,28 @@
 export default {
   name: "reservations-list-for-restaurant",
   props: ["reservations"],
-  data() {
-    return {};
-  },
-  updated() {}
-};
+      data () {
+      return {
+        headers: [
+          {
+            text: 'Time',
+            align: 'left',
+            sortable: false,
+            value: 'time'
+          },
+          { text: 'People', value: 'people' },
+          { text: 'Notes', value: 'notes' },
+        ],
+        reservations: [
+          {
+            time: reservations.date,
+            people: reservations.people,
+            notes: reservations.notes
+          }
+        ]
+      }
+    }
+  }
 </script>
 
 <style>
