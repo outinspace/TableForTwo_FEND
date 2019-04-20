@@ -6,8 +6,8 @@
   >
     <template v-slot:items="props">
       <td>{{ props.item.date }}</td>
-      <td class="text-xs-right">{{ props.item.people }}</td>
-      <td class="text-xs-right">{{ props.item.notes }}</td>
+      <td class="text-xs-middle">{{ props.item.people }}</td>
+      <td class="text-xs-middle">{{ props.item.notes }}</td>
     </template>
   </v-data-table>
 </template>
@@ -23,18 +23,10 @@ export default {
           {
             text: 'Time',
             align: 'left',
-            sortable: false,
             value: 'time'
           },
-          { text: 'People', value: 'people' },
-          { text: 'Notes', value: 'notes' },
-        ],
-        reservations: [
-          {
-            time: reservations.date,
-            people: reservations.people,
-            notes: reservations.notes
-          }
+          { text: 'People', sortable: false, value: 'people' },
+          { text: 'Notes', sortable: false, value: 'notes' },
         ]
       }
     }
