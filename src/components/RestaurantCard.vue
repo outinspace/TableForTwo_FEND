@@ -26,7 +26,11 @@ export default {
 
 <style>
 .container--dim {
-  background-color: rgba(0, 0, 0, 0.3)
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.container--dim:hover {
+  opacity: 0;
 }
 
 .title--center {

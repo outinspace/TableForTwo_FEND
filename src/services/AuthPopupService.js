@@ -1,9 +1,15 @@
 class AuthPopupService {
+<<<<<<< HEAD
   loginVisible = false
   signupVisible = false
   deleteReservationVisible = false
   editReservationVisible = false
+=======
+  visible = false
+>>>>>>> dd2ec140fae6846530355f88b6a1aa28a45ff874
   formData = {}
+
+  closeCallback = null
 
   constructor() {
     this.resetFormData()
@@ -16,21 +22,26 @@ class AuthPopupService {
     this.formData.lastName = ''
   }
 
-  openLogin() {
-    this.loginVisible = true
+  open() {
+    this.visible = true
   }
 
-  closeLogin() {
-    this.loginVisible = false
+  openWithCloseCallback(callback) {
+    this.open()
+    this.closeCallback = callback
   }
 
-  openSignup() {
-    this.signupVisible = true
+  close() {
+    this.visible = false
+    this.resetFormData()
+    if (this.closeCallback) {
+      this.closeCallback()
+    }
   }
+<<<<<<< HEAD
+=======
 
-  closeSignup() {
-    this.signupVisible = false
-  }
+>>>>>>> dd2ec140fae6846530355f88b6a1aa28a45ff874
 }
 
 export default new AuthPopupService()

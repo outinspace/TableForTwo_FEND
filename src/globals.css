@@ -1,3 +1,7 @@
 .v-card--round {
   border-radius: 18px;
 }
+
+.v-dialog {
+  -webkit-overflow-scrolling: touch;
+}
