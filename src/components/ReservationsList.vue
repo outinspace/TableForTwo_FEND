@@ -28,39 +28,35 @@
           <v-list-tile-content>
             <v-list-tile-title>{{res.restaurant.name}}</v-list-tile-title>
           </v-list-tile-content>
-          <v-card class="v-card--round" elevation="0">
-            <v-img height="200px" width="400px" :src="res.restaurant.imageUrl"></v-img>
-          </v-card>
         </v-list-tile>
         <v-list-tile>
           <v-list-tile-content>
             <v-list-tile-title>{{res.restaurant.address}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-card class="v-card--round card-style" elevation="0">
+          <v-img height="200px" width="400px" :src="res.restaurant.imageUrl"></v-img>
+        </v-card>
         
         <v-list-tile class="button-style">
           <v-list-tile-content>
-            <v-btn flat right @click="openEditReservation()">Edit Reservation</v-btn>
+            <v-btn flat right @click="openEditReservation(res)">Edit Reservation</v-btn>
           </v-list-tile-content>
           <v-list-tile-content>
-            <v-btn flat right color="error" @click="openDeleteReservation()">Delete Reservation</v-btn>
+            <v-btn flat right color="error" @click="openDeleteReservation(res)">Delete Reservation</v-btn>
           </v-list-tile-content>
         </v-list-tile>
-        <delete-popup :deleteForm="res"></delete-popup>
       </v-list-group>
     </v-list>
   </div>
 </template>
 
 <script>
-import PopupService from '../services/PopupService'
-import DeletePopup from './DeleteReservationPopup'
-
+import ReservationPopupService from '../services/ReservationPopupService'
 
 export default {
   name: "reservations-list",
   props: [ "reservations" ],
-  components: { DeletePopup },
   data() {
     return {
       
@@ -71,12 +67,12 @@ export default {
   },
 
   methods: {
-    openDeleteReservation() {
-      PopupService.openDeleteReservation()
+    openDeleteReservation(reservation) {
+      ReservationPopupService.openDeleteReservation(reservation)
     },
 
-    openEditReservation() {
-      PopupService.openEditReservation()
+    openEditReservation(reservation) {
+      ReservationPopupService.openEditReservation(reservation)
     }
   },
 
@@ -117,5 +113,9 @@ export default {
 
 .button-style {
   padding-top: 50px
+}
+
+.card-style {
+  padding-left: 50px
 }
 </style>

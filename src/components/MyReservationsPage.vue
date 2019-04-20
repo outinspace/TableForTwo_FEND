@@ -19,16 +19,22 @@
         </v-card>
       </v-flex>
     </v-layout>
+
+    <delete-popup></delete-popup>
+    <edit-popup></edit-popup>
+
   </v-container>
 </template>
 
 <script>
 import ReservationService from '../services/ReservationService'
 import ReservationsList from './ReservationsList'
+import DeletePopup from './DeleteReservationPopup'
+import EditPopup from './EditReservationPopup'
 
 export default {
   name: 'my-reservations-page',
-  components: { ReservationsList },
+  components: { ReservationsList, DeletePopup, EditPopup },
 
   data() {
     return {

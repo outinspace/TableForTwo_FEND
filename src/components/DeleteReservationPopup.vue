@@ -5,16 +5,16 @@
         <div class="headline">Are you sure you would like to delete the following reservation?</div>
         <v-form>
             <v-flex sm12>
-              <v-text-field label="Restaurant" disabled v-model="deleteForm.restaurant.name"></v-text-field>
+              <v-text-field label="Restaurant" disabled v-model="state.reservation.restaurant.name"></v-text-field>
             </v-flex>
             <v-flex sm12>
-              <v-text-field label="Date" disabled v-model="deleteForm.date"></v-text-field>
+              <v-text-field label="Date" disabled v-model="state.reservation.date"></v-text-field>
             </v-flex>
             <v-flex sm12>
-              <v-text-field label="People" disabled v-model="deleteForm.people"></v-text-field>
+              <v-text-field label="People" disabled v-model="state.reservation.people"></v-text-field>
             </v-flex>
             <v-flex sm12>
-              <v-text-field label="Notes" disabled v-model="deleteForm.notes"></v-text-field>
+              <v-text-field label="Notes" disabled v-model="state.reservation.notes"></v-text-field>
             </v-flex>
         </v-form>
       </v-card-text>
@@ -24,22 +24,21 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn flat @click="state.closeDeleteReservation()">Cancel</v-btn>
-        <v-btn flat color="error" @click="deleteReservation(deleteForm.id)">Delete</v-btn>
+        <v-btn flat color="error" @click="deleteReservation(state.reservation.id)">Delete</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import PopupService from '../services/AuthPopupService'
 import ReservationService from '../services/ReservationService'
+import ReservationPopupService from '../services/ReservationPopupService'
 
 export default {
     name: "delete-popup",
-    props: ['deleteForm'],
     data() {
         return {
-            state: PopupService,
+            state: ReservationPopupService,
             apiError: null
         }
     },
@@ -47,7 +46,7 @@ export default {
     methods: {
       deleteReservation(id) {
         ReservationService.deleteReservation(id)
-        PopupService.closeDeleteReservation()
+        ReservationPopupService.closeDeleteReservation()
       }
     }
 }

@@ -31,23 +31,6 @@ class AuthPopupService {
   closeSignup() {
     this.signupVisible = false
   }
-
-  openDeleteReservation() {
-    this.deleteReservationVisible = true
-  }
-
-  closeDeleteReservation() {
-    this.deleteReservationVisible = false
-  }
-
-  openEditReservation() {
-    this.editReservationVisible = true
-  }
-
-  closeEditReservation() {
-    this.editReservationVisible = false
-  }
-
 }
 
 export default new AuthPopupService()
