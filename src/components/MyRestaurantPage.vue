@@ -7,11 +7,11 @@
         <v-card flat class="v-card--round my-3">
           <v-card-text>
             <div>
-              <h3 class="headline">Restaurant Information</h3>
+              <h3 class="headline">Reservation details</h3>
               <p>View Reservations</p>
               <v-layout>
                 <v-flex xs-12 sm-6>
-                <reservations-list :reservations="this.reservations"></reservations-list>  
+                <reservations-list-for-restaurant :reservations="this.reservations"></reservations-list-for-restaurant>  
                 </v-flex>
               </v-layout>
             </div>
@@ -24,11 +24,11 @@
 
 <script>
 import ReservationService from '../services/ReservationService'
-import ReservationsList from './ReservationsList'
+import ReservationsListForRestaurant from './ReservationsListForRestaurant'
 
 export default {
   name: 'my-restaurant-page',
-  components: { ReservationsList },
+  components: { ReservationsListForRestaurant },
   data() {
     return {
       reservations: []

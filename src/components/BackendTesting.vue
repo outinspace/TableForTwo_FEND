@@ -135,7 +135,7 @@ export default {
 
     async createReservation() {
       this.createReservationResponse = await ReservationService.createReservation(
-         4,
+         1,
          this.reservationsCreateForm.people,
          this.date,
          this.reservationsCreateForm.notes
