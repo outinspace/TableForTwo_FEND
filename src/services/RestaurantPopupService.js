@@ -5,6 +5,10 @@ class RestaurantPopupService {
   constructor() {
   }
 
+  open() {
+    this.visible = true
+  }
+
   openWithRestaurant(restaurant) {
     this.restaurant = restaurant
     this.visible = true

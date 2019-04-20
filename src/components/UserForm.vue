@@ -10,13 +10,7 @@
 <script>
 export default {
   name: 'user-form',
-  props: ['formData', 'autofocus'],
-  data() {
-    return {}
-  },
-  updated() {
-
-  }
+  props: ['formData', 'autofocus']
 }
 </script>
 
