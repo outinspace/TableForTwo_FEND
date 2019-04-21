@@ -5,16 +5,16 @@
         <div class="headline">Are you sure you would like to delete the following reservation?</div>
         <v-form>
             <v-flex sm12>
-              <v-text-field label="Restaurant" disabled v-model="state.reservation.restaurant.name"></v-text-field>
+              <v-text-field label="Restaurant" readonly v-model="state.reservation.restaurant.name"></v-text-field>
             </v-flex>
             <v-flex sm12>
-              <v-text-field label="Date" disabled v-model="state.reservation.date"></v-text-field>
+              <v-text-field label="Date" readonly v-model="state.reservation.date"></v-text-field>
             </v-flex>
             <v-flex sm12>
-              <v-text-field label="People" disabled v-model="state.reservation.people"></v-text-field>
+              <v-text-field label="People" readonly v-model="state.reservation.people"></v-text-field>
             </v-flex>
             <v-flex sm12>
-              <v-text-field label="Notes" disabled v-model="state.reservation.notes"></v-text-field>
+              <v-text-field label="Notes" readonly v-model="state.reservation.notes"></v-text-field>
             </v-flex>
         </v-form>
       </v-card-text>

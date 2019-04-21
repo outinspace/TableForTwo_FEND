@@ -24,6 +24,11 @@ class ReservationService {
   async deleteReservation(reservationId) {
     await this.$http.post(`/reservations/delete/${reservationId}`)
   }
+
+  async editReservation(reservationId, changes) {
+    let res = await this.$http.post(`/reservations/update/${reservationId}`, changes)
+    return res.data
+  }
 }
 
 export default new ReservationService(client)

@@ -35,7 +35,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-card class="v-card--round card-style" elevation="0">
-          <v-img height="200px" width="400px" :src="res.restaurant.imageUrl"></v-img>
+          <v-img max-height="200px" max-width="400px" :src="res.restaurant.imageUrl"></v-img>
         </v-card>
         
         <v-list-tile class="button-style">
@@ -92,16 +92,13 @@ export default {
       var months = ["January", "February", "March", "April", "May", "June", 
       "July", "August", "September", "October", "November", "December"]
       var month = months[monthIndex-1]
+      var hour = ret.substring(11, 13)
+      var minute = ret.substring(14, 16)
       
-      var retDate = month + " " + day + ", " + year
+      var retDate = month + " " + day + ", " + year + " at " + hour + ":" + minute
       return retDate
     }
   }
-
-
-  // formatTime: function(date) {
-  //   var ret = date.toString()
-  // }
 } 
 </script>
 

@@ -1,12 +1,5 @@
 class AuthPopupService {
-<<<<<<< HEAD
-  loginVisible = false
-  signupVisible = false
-  deleteReservationVisible = false
-  editReservationVisible = false
-=======
   visible = false
->>>>>>> dd2ec140fae6846530355f88b6a1aa28a45ff874
   formData = {}
 
   closeCallback = null
@@ -38,10 +31,6 @@ class AuthPopupService {
       this.closeCallback()
     }
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> dd2ec140fae6846530355f88b6a1aa28a45ff874
 }
 
 export default new AuthPopupService()

@@ -3,7 +3,8 @@
     <v-card>
       <v-card-text>
         <div class="headline">Edit Reservation</div>
-        <v-form>
+        <reservation-form :formData="state.formData"></reservation-form>
+        <!-- <v-form>
             <v-menu ref="datePicker" v-model="datePicker" :close-on-content-click="false" 
             :nudge-right="40" :return-value.sync="state.reservation.date" lazy transition="scale-transition" offset-y full-widith min-width="290px">
               <template v-slot:activator="{on}">
@@ -21,15 +22,16 @@
             <v-flex sm12>
               <v-text-field label="Notes" v-model="state.reservation.notes"></v-text-field>
             </v-flex>
-        </v-form>
+        </v-form> -->
       </v-card-text>
 
       <v-divider></v-divider>
 
       <v-card-actions>
         <v-spacer></v-spacer>
+        <api-alerts v-if="updateReservationError" :error="updateReservationError"></api-alerts>
         <v-btn flat @click="state.closeEditReservation()">Cancel</v-btn>
-        <v-btn flat color="error">Edit</v-btn>
+        <v-btn flat @click="editReservation()" :loading="updateReservationLoading">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -37,19 +39,33 @@
 
 <script>
 import ReservationPopupService from '../services/ReservationPopupService'
-//import ReservationService from '../services/ReservationService'
+import ReservationService from '../services/ReservationService'
+import ApiAlerts from './ApiAlerts'
+import ReservationForm from './ReservationForm'
 
 export default {
     name: "edit-popup",
+    components: { ApiAlerts, ReservationForm },
     data() {
         return {
             state: ReservationPopupService,
-            datePicker: false
+            updateReservationLoading: false,
+            updateReservationError: null
         }
     },
 
     methods: {
-
+      async editReservation() {
+        this.updateReservationLoading = true
+        this.updateReservationError = null
+        try {
+           await ReservationService.editReservation(this.state.reservation.id, this.state.formData)
+         } catch (err) {
+           this.userProfileError = err
+         }
+         this.updateReservationLoading = false
+         this.state.closeEditReservation()
+      }
     }
 }
 </script>
