@@ -2,16 +2,18 @@
   <v-container fill-height>
     <v-layout row wrap>
       <v-flex>
-        <div class="display-1 mb-5">My Restaurant</div>
+        <div class="display-1 mb-4">My Restaurant</div>
+        <v-alert v-if="state.currentUser && !state.currentUser.restaurant.published" :value="true" type="warning" outline>
+          Your restaurant is not visible to customers. Go to <router-link :to="{'name': 'my-account'}">your account</router-link> page to publish it.
+        </v-alert>
 
         <v-card flat class="v-card--round my-3">
           <v-card-text>
             <div>
-              <h3 class="headline">Reservation details</h3>
-              <p>View Reservations</p>
+              <h3 class="headline">Upcoming Reservations</h3>
               <v-layout>
                 <v-flex xs-12 sm-6>
-                <reservations-list-for-restaurant :reservations="this.reservations"></reservations-list-for-restaurant>  
+                <reservations-list-for-restaurant :reservations="reservations"></reservations-list-for-restaurant>  
                 </v-flex>
               </v-layout>
             </div>
@@ -23,6 +25,7 @@
 </template>
 
 <script>
+import AuthService from '../services/AuthService'
 import ReservationService from '../services/ReservationService'
 import ReservationsListForRestaurant from './ReservationsListForRestaurant'
 
@@ -31,10 +34,12 @@ export default {
   components: { ReservationsListForRestaurant },
   data() {
     return {
-      reservations: []
+      reservations: [],
+      state: AuthService
     }
   },
   async created() {
+    await AuthService.hydratePromise
     this.reservations = await ReservationService.getMy()
   }
 }

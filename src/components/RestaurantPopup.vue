@@ -31,8 +31,8 @@
       <v-card-actions v-if="modeIsViewing">
         <v-spacer></v-spacer>
         <v-btn flat @click="state.close()">Close</v-btn>
-        <v-btn v-if="authService.currentUser" flat color="primary" @click="modeIsViewing = false">Reserve</v-btn>
-        <v-btn v-else flat color="primary" @click="openSignInPopup">Sign In</v-btn>
+        <v-btn v-if="authService.currentUser && !authService.currentUser.restaurant" flat color="primary" @click="modeIsViewing = false">Reserve</v-btn>
+        <v-btn v-if="!authService.currentUser" flat color="primary" @click="openSignInPopup">Sign In</v-btn>
       </v-card-actions>
       <v-card-actions v-else>
         <v-spacer></v-spacer>

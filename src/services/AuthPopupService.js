@@ -1,7 +1,6 @@
 class AuthPopupService {
   visible = false
   formData = {}
-
   closeCallback = null
 
   constructor() {

@@ -2,9 +2,6 @@ class RestaurantPopupService {
   visible = false
   restaurant = null
 
-  constructor() {
-  }
-
   open() {
     this.visible = true
   }
