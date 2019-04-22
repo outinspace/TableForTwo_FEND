@@ -1,22 +1,13 @@
 <template>
     <v-dialog v-model="state.deleteReservationVisible" max-width="500px">
     <v-card>
+      <v-card-title>
+        <div class="headline">Delete Reservation</div>
+        <div class="subheading">Are you sure you would like to delete the following reservation?</div>
+      </v-card-title>
+
       <v-card-text>
-        <div class="headline">Are you sure you would like to delete the following reservation?</div>
-        <v-form>
-            <v-flex sm12>
-              <v-text-field label="Restaurant" readonly v-model="state.reservation.restaurant.name"></v-text-field>
-            </v-flex>
-            <v-flex sm12>
-              <v-text-field label="Date" readonly v-model="state.reservation.date"></v-text-field>
-            </v-flex>
-            <v-flex sm12>
-              <v-text-field label="People" readonly v-model="state.reservation.people"></v-text-field>
-            </v-flex>
-            <v-flex sm12>
-              <v-text-field label="Notes" readonly v-model="state.reservation.notes"></v-text-field>
-            </v-flex>
-        </v-form>
+        <reservation-form v-if="state.reservation" v-model="state.reservation" disabled></reservation-form>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -33,9 +24,11 @@
 <script>
 import ReservationService from '../services/ReservationService'
 import ReservationPopupService from '../services/ReservationPopupService'
+import ReservationForm from './ReservationForm'
 
 export default {
-    name: "delete-popup",
+    name: "delete-reservation-popup",
+    components: { ReservationForm },
     data() {
         return {
             state: ReservationPopupService,

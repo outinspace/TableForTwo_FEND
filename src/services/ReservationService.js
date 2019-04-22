@@ -15,7 +15,7 @@ class ReservationService {
   async createReservation(restaurantId, people, date, time, notes) {
     let res = await this.$http.post(`/reservations/create/${restaurantId}`, {
       people,
-      date: `${date}T${time}`,
+      date,
       notes
     })
     return res.data

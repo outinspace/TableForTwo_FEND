@@ -11,7 +11,7 @@
               <p>View or cancel existing reservations</p>
               <v-layout>
                 <v-flex xs-12 sm-6>
-                  <reservations-list :reservations="this.reservations"></reservations-list>
+                  <reservations-list :reservations="reservations"></reservations-list>
                 </v-flex>
               </v-layout>
             </div>
@@ -20,8 +20,8 @@
       </v-flex>
     </v-layout>
 
-    <delete-popup></delete-popup>
-    <edit-popup></edit-popup>
+    <delete-reservation-popup></delete-reservation-popup>
+    <edit-reservation-popup></edit-reservation-popup>
 
   </v-container>
 </template>
@@ -29,12 +29,13 @@
 <script>
 import ReservationService from '../services/ReservationService'
 import ReservationsList from './ReservationsList'
-import DeletePopup from './DeleteReservationPopup'
-import EditPopup from './EditReservationPopup'
+import DeleteReservationPopup from './DeleteReservationPopup'
+import EditReservationPopup from './EditReservationPopup'
+import AuthService from '../services/AuthService';
 
 export default {
   name: 'my-reservations-page',
-  components: { ReservationsList, DeletePopup, EditPopup },
+  components: { ReservationsList, DeleteReservationPopup, EditReservationPopup },
 
   data() {
     return {
@@ -42,6 +43,7 @@ export default {
     }
   },
   async created() {
+    await AuthService.hydratePromise
     this.reservations = await ReservationService.getMy()
   }
 }

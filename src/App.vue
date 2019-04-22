@@ -91,7 +91,8 @@ export default {
   data() {
     return {
       drawerState: false,
-      AuthService
+      AuthService,
+      RestaurantPopup
     }
   },
 

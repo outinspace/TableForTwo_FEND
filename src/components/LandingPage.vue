@@ -10,7 +10,7 @@
       }" 
       v-resize="updateFavoritesMargins"
     >
-      <v-flex class="pa-2 restaurant-card--size mb-3" v-for="(r, i) in favoriteRestaurants" :key="i">
+      <v-flex class="pa-2 restaurant-card--size mb-3" v-for="r in favoriteRestaurants" :key="r.id">
         <restaurant-card :restaurant="r"></restaurant-card>
       </v-flex>
     </v-layout>
@@ -27,7 +27,7 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
-      <v-flex xs12 sm6 md6 lg4 class="pa-2" v-for="(r, i) in restaurants" :key="i">
+      <v-flex xs12 sm6 md6 lg4 class="pa-2" v-for="r in restaurants" :key="r.id">
         <restaurant-card :restaurant="r"></restaurant-card>
       </v-flex>
     </v-layout>
@@ -53,6 +53,9 @@ export default {
   },
   created() {
     this.fetchAllRestaurants()
+    if (AuthService.currentUser != null) {
+      this.fetchFavoriteRestaurants()
+    }
     AuthService.subscribe(() => {
       if (AuthService.currentUser != null && AuthService.currentUser.restaurant == null) {
         this.fetchFavoriteRestaurants()

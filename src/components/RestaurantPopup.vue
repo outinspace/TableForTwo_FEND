@@ -7,7 +7,7 @@
         <div class="headline">{{state.restaurant.name}}</div>
       </v-card-title>
 
-      <v-card-text v-if="modeIsViewing">
+      <v-card-text v-if="viewingMode">
         <div :class="{'paragraph--truncated': !descriptionExpanded}">
           {{state.restaurant.description}}
           <div v-if="!descriptionExpanded" class="truncate-paragraph">
@@ -22,21 +22,21 @@
       </v-card-text>
 
       <v-card-text v-else>
-        <reservation-form :formData="reservationForm"></reservation-form>
+        <reservation-form v-model="reservationForm"></reservation-form>
         <api-alerts v-if="apiError" :error="apiError"></api-alerts>
       </v-card-text>
 
       <v-divider></v-divider>
       
-      <v-card-actions v-if="modeIsViewing">
+      <v-card-actions v-if="viewingMode">
         <v-spacer></v-spacer>
         <v-btn flat @click="state.close()">Close</v-btn>
-        <v-btn v-if="authService.currentUser && !authService.currentUser.restaurant" flat color="primary" @click="modeIsViewing = false">Reserve</v-btn>
+        <v-btn v-if="authService.currentUser && !authService.currentUser.restaurant" flat color="primary" @click="viewingMode = false">Reserve</v-btn>
         <v-btn v-if="!authService.currentUser" flat color="primary" @click="openSignInPopup">Sign In</v-btn>
       </v-card-actions>
       <v-card-actions v-else>
         <v-spacer></v-spacer>
-        <v-btn flat @click="modeIsViewing = true">Cancel</v-btn>
+        <v-btn flat @click="viewingMode = true">Cancel</v-btn>
         <v-btn flat color="primary" @click="submitReservation" :loading="loading">Submit</v-btn>
       </v-card-actions>
     </v-card>
@@ -51,6 +51,7 @@ import AuthService from '../services/AuthService'
 import ReservationForm from './ReservationForm'
 import ApiAlerts from './ApiAlerts'
 import RestaurantMap from './RestaurantMap'
+import moment from 'moment'
 
 export default {
   name: 'restaurant-popup',
@@ -59,13 +60,12 @@ export default {
     return {
       state: RestaurantPopupService,
       authService: AuthService,
-      modeIsViewing: true,
+      viewingMode: true,
       descriptionExpanded: false,
       loading: false,
       reservationForm: {
         people: 2,
-        date: new Date().toISOString().substr(0,10),
-        time: '',
+        date: moment().add(2, 'h').format(),
         notes: ''
       },
       apiError: null
@@ -83,6 +83,9 @@ export default {
           this.reservationForm.time,
           this.reservationForm.notes
         )
+        RestaurantPopupService.close()
+        this.viewingMode = true
+        this.$router.push({'name': 'my-reservations'})
       } catch (err) {
         this.apiError = err
       }

@@ -3,35 +3,16 @@
     <v-card>
       <v-card-text>
         <div class="headline">Edit Reservation</div>
-        <reservation-form :formData="state.formData"></reservation-form>
-        <!-- <v-form>
-            <v-menu ref="datePicker" v-model="datePicker" :close-on-content-click="false" 
-            :nudge-right="40" :return-value.sync="state.reservation.date" lazy transition="scale-transition" offset-y full-widith min-width="290px">
-              <template v-slot:activator="{on}">
-                <v-text-field v-model="state.reservation.date" label="Date of Reservation" prepend-icon="event" readonly v-on="on"></v-text-field>
-              </template>
-              <v-date-picker no-title scrollable v-model="state.reservation.date">
-                <v-spacer></v-spacer>
-                <v-btn flat color="primary" @click="datePicker = false">Cancel</v-btn>
-                <v-btn flat color="primary" @click="$refs.datePicker.save(state.reservation.date)">OK</v-btn>
-              </v-date-picker>
-          </v-menu>
-            <v-flex sm12>
-              <v-text-field label="People" v-model="state.reservation.people" suffix="People" mask="###"></v-text-field>
-            </v-flex>
-            <v-flex sm12>
-              <v-text-field label="Notes" v-model="state.reservation.notes"></v-text-field>
-            </v-flex>
-        </v-form> -->
+        <reservation-form v-if="state.reservation" v-model="state.formData"></reservation-form>
+        <api-alerts v-if="apiError" :error="apiError"></api-alerts>
       </v-card-text>
 
       <v-divider></v-divider>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <api-alerts v-if="updateReservationError" :error="updateReservationError"></api-alerts>
         <v-btn flat @click="state.closeEditReservation()">Cancel</v-btn>
-        <v-btn flat @click="editReservation()" :loading="updateReservationLoading">Save</v-btn>
+        <v-btn flat @click="editReservation()" :loading="loading">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -44,27 +25,27 @@ import ApiAlerts from './ApiAlerts'
 import ReservationForm from './ReservationForm'
 
 export default {
-    name: "edit-popup",
+    name: "edit-reservation-popup",
     components: { ApiAlerts, ReservationForm },
     data() {
         return {
             state: ReservationPopupService,
-            updateReservationLoading: false,
-            updateReservationError: null
+            loading: false,
+            apiError: null
         }
     },
 
     methods: {
       async editReservation() {
-        this.updateReservationLoading = true
-        this.updateReservationError = null
+        this.loading = true
+        this.apiError = null
         try {
            await ReservationService.editReservation(this.state.reservation.id, this.state.formData)
+           this.state.closeEditReservation()
          } catch (err) {
-           this.userProfileError = err
+           this.apiError = err
          }
-         this.updateReservationLoading = false
-         this.state.closeEditReservation()
+         this.loading = false
       }
     }
 }

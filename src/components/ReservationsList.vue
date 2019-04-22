@@ -5,7 +5,7 @@
         <template v-slot:activator>
           <v-list-tile-content>
             <v-list-tile-title>{{ res.restaurant.name }}</v-list-tile-title>
-            <v-list-tile-title>{{ res.date | formatDate }}</v-list-tile-title>
+            <v-list-tile-title>{{ res.date | formatTitleDate }}</v-list-tile-title>
           </v-list-tile-content>
         </template>
 
@@ -21,7 +21,7 @@
         </v-list-tile>
         <v-list-tile>
           <v-list-tile-content>
-            <v-list-tile-title>{{ res.date | formatDate2 }}</v-list-tile-title>
+            <v-list-tile-title>{{ res.date | formatCountdown }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile class="list-element--size">
@@ -53,6 +53,7 @@
 
 <script>
 import ReservationPopupService from '../services/ReservationPopupService'
+import moment from 'moment'
 
 export default {
   name: "reservations-list",
@@ -77,26 +78,12 @@ export default {
   },
 
   filters: {
-    formatDate: function (date) {
-      var ret = date.toString()
-
-      return ret.substring(5, 7) + "/" + ret.substring(8, 10) + "/" + ret.substring(0, 4)
+    formatTitleDate: function (date) {
+      return moment(date).calendar()
     },
 
-    formatDate2: function(date) {
-      var ret = date.toString()
-
-      var day = ret.substring(8, 10)
-      var monthIndex = ret.substring(5, 7)
-      var year = ret.substring(0, 4)
-      var months = ["January", "February", "March", "April", "May", "June", 
-      "July", "August", "September", "October", "November", "December"]
-      var month = months[monthIndex-1]
-      var hour = ret.substring(11, 13)
-      var minute = ret.substring(14, 16)
-      
-      var retDate = month + " " + day + ", " + year + " at " + hour + ":" + minute
-      return retDate
+    formatCountdown: function(date) {
+      return moment(date).fromNow()
     }
   }
 } 
