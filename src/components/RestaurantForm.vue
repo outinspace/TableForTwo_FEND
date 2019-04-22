@@ -5,7 +5,9 @@
     <v-text-field label="Address" required v-model="formData.address"></v-text-field>
     <v-text-field label="Capacity" required v-model="formData.capacity" suffix="People" mask="###"></v-text-field>
     <v-text-field label="Image URL" required v-model="formData.imageUrl"></v-text-field>
-    <v-img v-if="formData.imageUrl" :max-height="300" :max-width="600" :src="formData.imageUrl"></v-img>
+    <div>
+      <v-img v-if="formData.imageUrl" :max-height="300" :max-width="500" class="v-card--round" :src="formData.imageUrl"></v-img>
+    </div>
   </div>
 </template>
 

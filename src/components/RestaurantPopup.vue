@@ -63,15 +63,20 @@ export default {
       viewingMode: true,
       descriptionExpanded: false,
       loading: false,
-      reservationForm: {
-        people: 2,
-        date: moment().add(2, 'h').format(),
-        notes: ''
-      },
+      reservationForm: {},
       apiError: null
     }
   },
+  created() {
+    this.clearFormData()
+  },
   methods: {
+    clearFormData() {
+      this.reservationForm.people = 2,
+      this.reservationForm.date = moment().add(2, 'h').format(),
+      this.reservationForm.notes = ''
+    },
+
     async submitReservation() {
       try {
         this.loading = true
@@ -85,6 +90,7 @@ export default {
         )
         RestaurantPopupService.close()
         this.viewingMode = true
+        this.clearFormData()
         this.$router.push({'name': 'my-reservations'})
       } catch (err) {
         this.apiError = err

@@ -88,6 +88,9 @@ export default {
           this.isOwner
         )
         AuthPopupService.close()
+        if (this.isOwner) {
+          this.$router.push({'name': 'my-account'})
+        }
         AuthPopupService.resetFormData()
         this.isLoginMode = true
       } catch (err) {

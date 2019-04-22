@@ -40,10 +40,10 @@
         
         <v-list-tile class="button-style">
           <v-list-tile-content>
-            <v-btn flat right @click="openEditReservation(res)">Edit Reservation</v-btn>
+            <v-btn flat right @click="openEditReservation(res)">Edit</v-btn>
           </v-list-tile-content>
           <v-list-tile-content>
-            <v-btn flat right color="error" @click="openDeleteReservation(res)">Delete Reservation</v-btn>
+            <v-btn flat right color="error" @click="openDeleteReservation(res)">Delete</v-btn>
           </v-list-tile-content>
         </v-list-tile>
       </v-list-group>
