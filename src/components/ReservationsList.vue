@@ -36,6 +36,11 @@
         </v-list-tile>
         <v-card class="v-card--round card-style" elevation="0">
           <v-img max-height="200px" max-width="400px" :src="res.restaurant.imageUrl"></v-img>
+          <v-divider width="450px" class="my-3"></v-divider>
+        </v-card>
+
+        <v-card class="v-card--round card-style map-style" elevation="0">
+           <restaurant-map :address="res.restaurant.address"></restaurant-map>
         </v-card>
         
         <v-list-tile class="button-style">
@@ -54,17 +59,19 @@
 <script>
 import ReservationPopupService from '../services/ReservationPopupService'
 import moment from 'moment'
+import RestaurantMap from './RestaurantMap'
 
 export default {
   name: "reservations-list",
   props: [ "reservations" ],
+  components: { RestaurantMap },
   data() {
     return {
       
     }
   },
   updated() {
-
+    
   },
 
   methods: {
@@ -101,5 +108,9 @@ export default {
 
 .card-style {
   padding-left: 50px
+}
+
+.map-style {
+  max-width: 400px
 }
 </style>

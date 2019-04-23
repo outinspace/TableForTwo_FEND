@@ -20,8 +20,8 @@
       </v-flex>
     </v-layout>
 
-    <delete-reservation-popup></delete-reservation-popup>
-    <edit-reservation-popup></edit-reservation-popup>
+    <delete-reservation-popup @deleted="reloadList"></delete-reservation-popup>
+    <edit-reservation-popup @updated="reloadList"></edit-reservation-popup>
 
   </v-container>
 </template>
@@ -31,7 +31,7 @@ import ReservationService from '../services/ReservationService'
 import ReservationsList from './ReservationsList'
 import DeleteReservationPopup from './DeleteReservationPopup'
 import EditReservationPopup from './EditReservationPopup'
-import AuthService from '../services/AuthService';
+import AuthService from '../services/AuthService'
 
 export default {
   name: 'my-reservations-page',
@@ -45,7 +45,17 @@ export default {
   async created() {
     await AuthService.hydratePromise
     this.reservations = await ReservationService.getMy()
+  },
+
+  methods: {
+    async reloadList(reload) {
+      if(reload)
+      {
+        this.reservations = await ReservationService.getMy()
+      } 
+    }
   }
+
 }
 </script>
 

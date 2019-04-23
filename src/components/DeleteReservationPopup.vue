@@ -37,9 +37,10 @@ export default {
     },
 
     methods: {
-      deleteReservation(id) {
-        ReservationService.deleteReservation(id)
+      async deleteReservation(id) {
+        await ReservationService.deleteReservation(id)
         ReservationPopupService.closeDeleteReservation()
+        this.$emit('deleted', true)
       }
     }
 }
