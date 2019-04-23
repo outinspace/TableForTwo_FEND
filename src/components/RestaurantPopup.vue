@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="state.visible" max-width="500px">
+  <v-dialog v-model="state.visible" max-width="600px">
     <v-card v-if="state.restaurant">
       <v-img height="200px" :src="state.restaurant.imageUrl"></v-img>
       
@@ -22,7 +22,9 @@
       </v-card-text>
 
       <v-card-text v-else>
-        <reservation-form v-model="reservationForm"></reservation-form>
+        <v-form v-model="reservationFormValid">
+          <reservation-form v-model="reservationForm"></reservation-form>
+        </v-form>
         <api-alerts v-if="apiError" :error="apiError"></api-alerts>
       </v-card-text>
 
@@ -37,7 +39,7 @@
       <v-card-actions v-else>
         <v-spacer></v-spacer>
         <v-btn flat @click="viewingMode = true">Cancel</v-btn>
-        <v-btn flat color="primary" @click="submitReservation" :loading="loading">Submit</v-btn>
+        <v-btn flat color="primary" @click="submitReservation" :loading="loading" :disabled="!reservationFormValid">Submit</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -64,7 +66,8 @@ export default {
       descriptionExpanded: false,
       loading: false,
       reservationForm: {},
-      apiError: null
+      apiError: null,
+      reservationFormValid: true
     }
   },
   created() {

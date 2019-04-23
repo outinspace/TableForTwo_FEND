@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-toolbar app flat id="app-toolbar">
-      <v-toolbar-side-icon @click="drawerState = !drawerState"></v-toolbar-side-icon>
-      <v-toolbar-title id="app-toolbar-title" @click="$router.push({name: 'landing'})">
-        Reservations Application
+      <img class="title-logo" src="./assets/logo.png" @click="$router.push({name: 'landing'})"/>
+      <v-toolbar-title id="app-toolbar-title" class="hidden-xs-only" @click="$router.push({name: 'landing'})">
+        <b>Table</b> <i> For </i> <b>Two</b>
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -45,30 +45,6 @@
       </v-btn>
     </v-toolbar>
 
-    <v-navigation-drawer app temporary v-model="drawerState">
-      <v-list>
-        <v-list-tile to="backend-testing">
-          <v-list-tile-action>
-            <v-icon>child_care</v-icon>
-          </v-list-tile-action>
-
-          <v-list-tile-content>
-            <v-list-tile-title>Backend Testing</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile @click="logout()">
-          <v-list-tile-action>
-            <v-icon>child_care</v-icon>
-          </v-list-tile-action>
-
-          <v-list-tile-content>
-            <v-list-tile-title>Logout</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -90,7 +66,6 @@ export default {
   components: { LoginPopup, RestaurantPopup },
   data() {
     return {
-      drawerState: false,
       AuthService,
       RestaurantPopup
     }
@@ -137,5 +112,11 @@ body {
 
 .v-menu__content {
   border-radius: 18px !important;
+}
+
+.title-logo {
+  max-height: 35px;
+  max-width: 35px;
+  cursor: pointer;
 }
 </style>
