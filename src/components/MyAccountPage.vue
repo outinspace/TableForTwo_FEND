@@ -11,11 +11,13 @@
               <p>Update your user profile information</p>
               <v-layout>
                 <v-flex>
-                  <user-form :formData="userProfileData"></user-form>
+                  <v-form v-model="userFormValid">
+                    <user-form :formData="userProfileData"></user-form>
+                  </v-form>
                 </v-flex>
               </v-layout>
               <api-alerts v-if="userProfileError" :error="userProfileError"></api-alerts>
-              <v-btn flat color="primary" @click="updateUser()" :loading="updateUserLoading">Save</v-btn>
+              <v-btn flat color="primary" @click="updateUser()" :loading="updateUserLoading" :disabled="!userFormValid">Save</v-btn>
             </div>
           </v-card-text>
         </v-card>
@@ -27,11 +29,13 @@
               <p>Update your restaurant profile information. Other users will see this information when they search for your restaurant.</p>
               <v-layout>
                 <v-flex xs-12 sm-6>
-                  <restaurant-form :formData="restaurantProfileData"></restaurant-form>
+                  <v-form v-model="restaurantFormValid">
+                    <restaurant-form :formData="restaurantProfileData"></restaurant-form>
+                  </v-form>
                 </v-flex>
               </v-layout>
               <api-alerts v-if="restaurantProfileError" :error="restaurantProfileError"></api-alerts>
-              <v-btn flat color="primary" @click="updateRestaurant()" :loading="updateRestaurantLoading">Save</v-btn>
+              <v-btn flat color="primary" @click="updateRestaurant()" :loading="updateRestaurantLoading" :disabled="!restaurantFormValid">Save</v-btn>
             </div>
           </v-card-text>
         </v-card>
@@ -66,8 +70,16 @@
               </div>
               <api-alerts v-if="deleteUserError" :error="deleteUserError"></api-alerts>
               <v-layout class="delete-layout">
-                <v-text-field class="mr-3" label="Password" type="password" required v-model="deleteCheckPassword"></v-text-field>
-                <v-btn color="error" flat @click="deleteAccount()" :loading="deleteUserLoading">Delete</v-btn>
+                <v-form v-model="deleteFormValid">
+                  <v-text-field class="mr-3"
+                   label="Password"
+                    type="password"
+                    required
+                    v-model="deleteCheckPassword"
+                    :rules="[v => !!v || 'Cannot be blank']"
+                  ></v-text-field>
+                </v-form>
+                <v-btn color="error" flat @click="deleteAccount()" :loading="deleteUserLoading" :disabled="!deleteFormValid">Delete</v-btn>
               </v-layout>
           </v-card-text>
         </v-card>
@@ -93,20 +105,23 @@ export default {
       userProfileData: {},
       updateUserLoading: false,
       userProfileError: null,
+      userFormValid: true,
 
       restaurantProfileData: null,
       restaurantProfileError: null,
       updateRestaurantLoading: false,
+      restaurantFormValid: false,
 
       deleteCheckPassword: null,
       deleteUserError: null,
       deleteUserLoading: false,
+      deleteFormValid: false,
 
       unpublishRestaurantLoading: false,
       unpublishRestaurantError: null,
 
       publishRestaurantLoading: false,
-      publishRestaurantError: null
+      publishRestaurantError: null,
     }
   },
   async created() {

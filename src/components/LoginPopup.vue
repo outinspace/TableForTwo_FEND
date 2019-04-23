@@ -3,12 +3,12 @@
     <v-card>
       <v-card-text v-if="isLoginMode">
         <div class="headline">Login</div>
-        <v-form>
+        <v-form v-model="loginFormValid">
             <v-flex sm12>
-              <v-text-field label="Email" autofocus required v-model="formData.email"></v-text-field>
+              <v-text-field label="Email" autofocus required v-model="formData.email" :rules="[rules.email]"></v-text-field>
             </v-flex>
             <v-flex sm12>
-              <v-text-field label="Password" type="password" required v-model="formData.password" @keypress.enter="login()"></v-text-field>
+              <v-text-field label="Password" type="password" required v-model="formData.password" @keypress.enter="login()" :rules="[rules.notBlank]"></v-text-field>
             </v-flex>
             <api-alerts v-if="apiError" :error="apiError"></api-alerts>
         </v-form>
@@ -27,7 +27,7 @@
         <v-btn flat color="primary" @click="switchMode()">Sign Up</v-btn>
         <v-spacer></v-spacer>
         <v-btn flat @click="closePopup()">Close</v-btn>
-        <v-btn flat color="primary" @click="login()" :loading="loading">Login</v-btn>
+        <v-btn flat color="primary" @click="login()" :loading="loading" :disabled="!loginFormValid">Log In</v-btn>
       </v-card-actions>
 
       <v-card-actions v-else>
@@ -57,6 +57,11 @@ export default {
       isLoginMode: true,
       formData: AuthPopupService.formData,
       isOwner: false,
+      loginFormValid: false,
+      rules: {
+        email: v => /.+@.+/.test(v) || "Must enter a valid email address",
+        notBlank: v => v == null || !!v.replace(' ', '') || "Cannot be blank",
+      }
     }
   },
   methods: {
@@ -92,6 +97,7 @@ export default {
           this.$router.push({'name': 'my-account'})
         }
         AuthPopupService.resetFormData()
+        this.isOwner = false
         this.isLoginMode = true
       } catch (err) {
         this.apiError = err
