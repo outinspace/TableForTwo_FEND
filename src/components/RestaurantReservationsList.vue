@@ -41,8 +41,6 @@
           <td>{{ props.item.notes && props.item.notes.length > 15 ? props.item.notes.slice(0, 15) + '...' : props.item.notes }}</td>
           <td>
             <v-btn small round flat color="primary" @click="$emit('view', props.item.id)">View</v-btn>
-          </td>
-          <td>
             <v-btn small round flat color="error" @click="$emit('delete', props.item.id)">Delete</v-btn>
           </td>
         </template>
@@ -74,7 +72,7 @@ export default {
         { text: 'Name', sortable: false, value: 'fullName' },
         { text: 'People', sortable: false, value: 'people' },
         { text: 'Notes', sortable: false, value: 'notes' },
-        { text: '', sortable: false }
+        { text: '', sortable: false },
       ]
     }
   },

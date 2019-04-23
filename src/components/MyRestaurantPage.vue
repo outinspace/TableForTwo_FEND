@@ -36,6 +36,9 @@
         ></restaurant-reservations-list>  
       </v-flex>
     </v-layout>
+
+    <delete-reservation-popup @deleted="fetchReservations"></delete-reservation-popup>
+    <view-reservation-popup></view-reservation-popup>
   </v-container>
 </template>
 
@@ -47,10 +50,12 @@ import moment from 'moment'
 import ApiAlerts from './ApiAlerts'
 import ReservationService from '../services/ReservationService'
 import ReservationPopupService from '../services/ReservationPopupService'
+import DeleteReservationPopup from './DeleteReservationPopup'
+import ViewReservationPopup from './ViewReservationPopup'
 
 export default {
   name: 'my-restaurant-page',
-  components: { RestaurantReservationsList, ApiAlerts },
+  components: { RestaurantReservationsList, ApiAlerts, DeleteReservationPopup, ViewReservationPopup },
   data() {
     return {
       loading: false,
@@ -92,8 +97,6 @@ export default {
     },
 
     async saveReservationState(completed, id) {
-      /* eslint-disable */
-      console.log(completed, id)
       let updatedReservation = await ReservationService.markCompleted(completed, id)
       let indexToChange = this.allReservations.findIndex(r => r.id == id)
       this.allReservations[indexToChange] = updatedReservation

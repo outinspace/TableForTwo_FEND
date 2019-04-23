@@ -40,11 +40,11 @@ export default {
   },
 
   methods: {
-    deleteReservation(id) {
+    async deleteReservation(id) {
       this.apiError = null
       this.loading = true
       try {
-        ReservationService.deleteReservation(id)
+        await ReservationService.deleteReservation(id)
         ReservationPopupService.closeDeleteReservation()
         this.$emit('deleted', true)
       } catch (err) {
