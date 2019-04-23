@@ -1,6 +1,7 @@
 class ReservationPopupService {
   deleteReservationVisible = false
   editReservationVisible = false
+  viewReservationVisible = false
   formData = {}
   reservation = null
 
@@ -24,6 +25,15 @@ class ReservationPopupService {
   closeEditReservation() {
     this.formData = {}
     this.editReservationVisible = false
+  }
+
+  openViewReservation(reservation) {
+    this.reservation = reservation
+    this.viewReservationVisible = true
+  }
+
+  closeViewReservation() {
+    this.viewReservationVisible = false
   }
 }
 

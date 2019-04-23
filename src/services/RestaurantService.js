@@ -27,6 +27,11 @@ class RestaurantService {
     return res.data
   }
 
+  async getReservations() {
+    let res = await this.$http.get('/restaurants/reservations')
+    return res.data
+  }
+
   async unpublish() {
     let res = await this.$http.post('/restaurants/unpublish', {})
     return res.data

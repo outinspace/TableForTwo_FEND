@@ -7,18 +7,33 @@
           Your restaurant is not visible to customers. Go to <router-link :to="{'name': 'my-account'}">your account</router-link> page to publish it.
         </v-alert>
 
-        <v-card flat class="v-card--round my-3">
-          <v-card-text>
-            <div>
-              <h3 class="headline">Upcoming Reservations</h3>
-              <v-layout>
-                <v-flex xs-12 sm-6>
-                <reservations-list-for-restaurant :reservations="reservations"></reservations-list-for-restaurant>  
-                </v-flex>
-              </v-layout>
-            </div>
-            </v-card-text>
-        </v-card>   
+        <api-alerts v-if="apiError" :error="apiError"></api-alerts>
+
+        <restaurant-reservations-list 
+          :reservations="todaysReservations"
+          :loading="loading"
+          title="Today's Reservations"
+          :checkbox="true"
+          @checkbox="saveReservationState"
+          @view="viewReservation"
+          @delete="deleteReservation"
+        ></restaurant-reservations-list>  
+
+        <restaurant-reservations-list
+          :reservations="upcomingReservations"
+          :loading="loading"
+          title="Upcoming Reservations"
+          @view="viewReservation"
+          @delete="deleteReservation"
+        ></restaurant-reservations-list>  
+
+        <restaurant-reservations-list
+          :reservations="pastReservations"
+          :loading="loading"
+          title="Past Reservations"
+          @view="viewReservation"
+          @delete="deleteReservation"
+        ></restaurant-reservations-list>  
       </v-flex>
     </v-layout>
   </v-container>
@@ -26,21 +41,74 @@
 
 <script>
 import AuthService from '../services/AuthService'
+import RestaurantService from '../services/RestaurantService'
+import RestaurantReservationsList from './RestaurantReservationsList'
+import moment from 'moment'
+import ApiAlerts from './ApiAlerts'
 import ReservationService from '../services/ReservationService'
-import ReservationsListForRestaurant from './ReservationsListForRestaurant'
+import ReservationPopupService from '../services/ReservationPopupService'
 
 export default {
   name: 'my-restaurant-page',
-  components: { ReservationsListForRestaurant },
+  components: { RestaurantReservationsList, ApiAlerts },
   data() {
     return {
-      reservations: [],
+      loading: false,
+      apiError: null,
+      allReservations: [],
+      todaysReservations: [],
+      upcomingReservations: [],
+      pastReservations: [],
       state: AuthService
     }
   },
   async created() {
     await AuthService.hydratePromise
-    this.reservations = await ReservationService.getMy()
+    await this.fetchReservations()
+  },
+  methods: {
+    async fetchReservations() {
+      this.loading = true
+      this.apiError = null
+      try {
+        this.allReservations = await RestaurantService.getReservations()
+      } catch (err) {
+        this.apiError = err
+      }
+      this.loading = false
+      this.divideReservationsByTime()
+    },
+
+    divideReservationsByTime() {
+      this.todaysReservations = this.allReservations.filter(r => 
+        moment(r.date).isBetween(moment().startOf('day'), moment().endOf('day'))
+      )
+      this.upcomingReservations = this.allReservations.filter(r => 
+        moment(r.date).isAfter(moment().endOf('day'))
+      )
+      this.pastReservations = this.allReservations.filter(r =>
+        moment(r.date).isBefore(moment().startOf('day'))
+      )
+    },
+
+    async saveReservationState(completed, id) {
+      /* eslint-disable */
+      console.log(completed, id)
+      let updatedReservation = await ReservationService.markCompleted(completed, id)
+      let indexToChange = this.allReservations.findIndex(r => r.id == id)
+      this.allReservations[indexToChange] = updatedReservation
+      this.divideReservationsByTime()
+    },
+
+    viewReservation(id) {
+      let reservation = this.allReservations.find(r => r.id == id)
+      ReservationPopupService.openViewReservation(reservation)
+    },
+
+    deleteReservation(id) {
+      let reservation = this.allReservations.find(r => r.id == id)
+      ReservationPopupService.openDeleteReservation(reservation)
+    }
   }
 }
 </script>

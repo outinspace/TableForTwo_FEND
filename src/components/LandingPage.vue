@@ -19,7 +19,7 @@
       <v-spacer></v-spacer>
       <v-flex class="flex--shrink">
         <v-layout>
-          <v-text-field label="Filter" clearable @keypress.enter="filterRestaurants" v-model="filterValue" @click:clear="restaurants = allRestaurants"></v-text-field>
+          <v-text-field label="Filter" clearable @keypress.enter="filterRestaurants" v-model="filterValue" @click:clear="restaurants = allRestaurants" hide-details></v-text-field>
           <v-btn fab flat @click="filterRestaurants">
             <v-icon>search</v-icon>
           </v-btn>

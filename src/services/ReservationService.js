@@ -29,6 +29,11 @@ class ReservationService {
     let res = await this.$http.post(`/reservations/update/${reservationId}`, changes)
     return res.data
   }
+
+  async markCompleted(completed, reservationId) {
+    let res = await this.$http.post(`/reservations/completed/${completed}/${reservationId}`, {})
+    return res.data
+  }
 }
 
 export default new ReservationService(client)
