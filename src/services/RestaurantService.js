@@ -16,6 +16,10 @@ class RestaurantService {
     let res = await this.$http.get('/restaurants/all')
     return res.data
   }
+  async getReservations() {
+    let res = await this.$http.get('/restaurants/reservations')
+    return res.data
+  }
 
   async getFavorites() {
     let res = await this.$http.get('/restaurants/favorites')

@@ -26,7 +26,7 @@
 
 <script>
 import AuthService from '../services/AuthService'
-import ReservationService from '../services/ReservationService'
+import RestaurantService from '../services/RestaurantService'
 import ReservationsListForRestaurant from './ReservationsListForRestaurant'
 
 export default {
@@ -40,8 +40,16 @@ export default {
   },
   async created() {
     await AuthService.hydratePromise
-    this.reservations = await ReservationService.getMy()
-  }
+    this.reservations = await RestaurantService.getReservations()
+    //this.fetchAllReservations()
+  },
+  //methods: {
+    //async fetchAllReservations() {
+      //this.allreservations = await RestaurantService.getReservations()
+      //this.reservations = this.allreservations
+    //},
+  //}
+
 }
 </script>
 
