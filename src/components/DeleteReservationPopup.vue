@@ -46,6 +46,7 @@ export default {
       try {
         ReservationService.deleteReservation(id)
         ReservationPopupService.closeDeleteReservation()
+        this.$emit('deleted', true)
       } catch (err) {
         this.apiError = err
       }

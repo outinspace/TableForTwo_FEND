@@ -42,6 +42,7 @@ export default {
         try {
            await ReservationService.editReservation(this.state.reservation.id, this.state.formData)
            this.state.closeEditReservation()
+           this.$emit('updated', true)
          } catch (err) {
            this.apiError = err
          }
